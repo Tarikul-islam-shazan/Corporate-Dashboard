@@ -9,6 +9,7 @@ import Tile from "react-bulma-components/lib/components/tile";
 import Meedloader from "../../components/Meedloader/Meedloader";
 import Switch from "../../components/Switch/Switch";
 import Header from "../../components/Header/Header";
+import RadialBar from "../../components/Charts/RadialBar/RadialBar";
 import './Dashboard.scss';
 import {
   clearStorage,
@@ -32,6 +33,8 @@ class Dashboard extends React.Component {
   state = {
     bankApplication: 0,
     activeUser: 0,
+    totalShare: 1,
+    totalcShare: 1,
     loader: "",
     groupSize: 1,
     month_year: "Month"
@@ -62,7 +65,9 @@ class Dashboard extends React.Component {
       });
       this.setState({
         bankApplication: filteData[0].application,
-        activeUser: filteData[0].user
+        activeUser: filteData[0].user,
+        totalShare: 10,
+        totalcShare: 6
       });
       this.setState({ loader: "", month_year: "Month" });
     } else if (value === 2) {
@@ -76,7 +81,9 @@ class Dashboard extends React.Component {
       }
       this.setState({
         bankApplication: totalApplication,
-        activeUser: totalUser
+        activeUser: totalUser,
+        totalShare: 30,
+        totalcShare: 12
       });
       this.setState({ loader: "", month_year: "Year" });
     }
@@ -100,7 +107,9 @@ class Dashboard extends React.Component {
         });
         this.setState({
           bankApplication: filteData[0].application,
-          activeUser: filteData[0].user
+          activeUser: filteData[0].user,
+          totalShare: 10,
+          totalcShare: 6
         });
         this.setState({ loader: "" });
       } else {
@@ -238,64 +247,14 @@ class Dashboard extends React.Component {
                   </Tile>
                 </Tile>
 
-                <Tile kind="parent" vertical>
-                  <Tile
-                    renderAs="article"
-                    kind="child"
-                    className="is-circle has-tile-text-centered"
-                  >
-                    <Tile>
-                      <Tile vertical>
-                        <Heading subtitle className="is-display">
-                          3%
-                        </Heading>
-                        <p>
-                          <strong>Shares Ranking</strong>
-                        </p>
-                        <p>This {this.state.month_year}</p>
-                      </Tile>
-                    </Tile>
-                  </Tile>
 
-                  <Tile
-                    renderAs="article"
-                    kind="child"
-                    className="has-tile-text-centered"
-                  >
-                    <Heading subtitle size={4}>
-                      Total Shares: 2,100
-                    </Heading>
-                  </Tile>
+
+                <Tile kind="parent" vertical>
+                  <RadialBar share={this.state.totalShare} name={"of all Shares"} title={"Total Shares"} month_year={this.state.month_year} />
                 </Tile>
 
                 <Tile kind="parent" vertical>
-                  <Tile
-                    renderAs="article"
-                    kind="child"
-                    className="is-circle has-tile-text-centered"
-                  >
-                    <Tile>
-                      <Tile vertical>
-                        <Heading subtitle className="is-display">
-                          6%
-                        </Heading>
-                        <p>
-                          <strong>Shares Ranking</strong>
-                        </p>
-                        <p>This {this.state.month_year}</p>
-                      </Tile>
-                    </Tile>
-                  </Tile>
-
-                  <Tile
-                    renderAs="article"
-                    kind="child"
-                    className="has-tile-text-centered"
-                  >
-                    <Heading subtitle size={4}>
-                      Total Corporate Shares: 1,050
-                    </Heading>
-                  </Tile>
+                  <RadialBar share={this.state.totalcShare} name={"of all Corporate Shares"} title={"Total Corporate Shares"} month_year={this.state.month_year} />
                 </Tile>
               </Tile>
             </Container>
