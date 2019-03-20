@@ -1,0 +1,62 @@
+$purple: #435CDC;
+
+$primary: $purple;
+
+$deep-dark-blue: #141C42;
+$salmon: #FF925D;
+$grey-pri: #E7E8EC;
+$grey-sec: #D3D3D3;
+$grey-ter: #D9D9D9;
+$grey-qua: #E5E5E5;
+$grey-qui: #EDF0FF;
+$black-qua: #191919;
+$black-qui: #404040;
+$green-bright: #2DE2A2;
+$green-brighter: #1DD090;
+$blue-light: #53C9FF;
+$blue-lighter: #53C9FF;
+$purple: #435CDC;
+
+$deep-dark-blue-invert: findColorInvert($deep-dark-blue) !default;
+$salmon-invert: findColorInvert($salmon) !default;
+$grey-pri-invert: findColorInvert($grey-pri) !default;
+$grey-sec-invert: findColorInvert($grey-sec) !default;
+$grey-ter-invert: findColorInvert($grey-ter) !default;
+$grey-qua-invert: findColorInvert($grey-qua) !default;
+$grey-qui-invert: findColorInvert($grey-qui) !default;
+$black-qua-invert: findColorInvert($black-qua) !default;
+$black-qui-invert: findColorInvert($black-qui) !default;
+$green-bright-invert: findColorInvert($green-bright) !default;
+$green-brighter-invert: findColorInvert($green-brighter) !default;
+$blue-light-invert: findColorInvert($blue-light) !default;
+$blue-lighter-invert: findColorInvert($blue-lighter) !default;
+$purple-invert: findColorInvert($purple) !default;
+
+$custom-colors: ( "deep-dark-blue":($deep-dark-blue, $deep-dark-blue-invert), "salmon":($salmon, $salmon-invert), "grey-pri":($grey-pri, $grey-pri-invert), "grey-sec":($grey-sec, $grey-sec-invert), "grey-ter":($grey-ter, $grey-ter-invert), "grey-qua":($grey-qua, $grey-qua-invert), "grey-qui":($grey-qui, $grey-qui-invert), "black-qua":($black-qua, $black-qua-invert), "black-qui":($black-qui, $black-qui-invert), "green-bright":($green-bright, $green-bright-invert), "green-brighter":($green-brighter, $green-brighter-invert), "blue-light":($blue-light, $blue-light-invert), "blue-lighter":($blue-lighter, $blue-lighter-invert), "purple":($purple, $purple-invert));
+
+// Update Bulma's global variables
+$family-sans-serif: "Open Sans", sans-serif;
+$primary: $purple;
+$light: $grey-qui;
+$success: $green-bright;
+$dark: $deep-dark-blue;
+$link: $blue-lighter;
+$border: $primary;
+$green-invert: $deep-dark-blue;
+$dark-invert: $grey-qua;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+$radius-large: 0.5rem;
+$section-padding: 2.25rem 1.875rem;
+$navbar-item-img-max-height: 4rem;
+
+// Update some of Bulma's component variables
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-background-color: transparent;
+$input-shadow: none;
+$dropdown-content-shadow: 0 2px 3px rgba($primary, 0.1), 0 0 0 2px rgba($primary, 1);
+$dropdown-item-color: $primary;
+
+@import "~react-bulma-components/src/index.sass";
+

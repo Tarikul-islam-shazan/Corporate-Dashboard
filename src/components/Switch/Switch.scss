@@ -1,0 +1,45 @@
+@import "../../_variables.sass";
+  .toggleContainer {
+    width: 217px;
+    height: 48px;
+    border: 3px solid $primary;
+    border-radius: 10px;
+    position: relative;
+    background: $white;
+
+  }
+  
+  .toggleContainer .toggleOption {
+    padding: 1px;
+    padding-bottom: 5px;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    color: $primary;
+    font-weight: bold;
+  }
+  
+  .toggleContainer .toggleOption.selected {
+    color: $white;
+    cursor: initial;
+  }
+  
+  .toggleContainer .toggle {
+    border-radius: 5px;
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    transition: all 0.4s ease-in-out;
+    background: $primary;
+  }
+  
+  .optionDisabled {
+    background: #e6e6e6;
+    cursor: no-drop !important;
+  }

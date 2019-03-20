@@ -1,0 +1,205 @@
+// Set your brand colors
+@import "_variables.sass";
+
+
+
+
+// @charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
+// Import Averta Font
+@import url("https://fast.fonts.net/lt/1.css?apiType=css&c=3a8a18b2-5d84-4189-8fda-1546c47938d6&fontids=5319305,5347752,5358128");
+@font-face {
+    font-family:"Averta W05 Light";
+    src: url("./assets/Fonts/5319305/12655020-1f98-459e-b60f-4d5bb18e7b07.eot?#iefix");
+    src: url("./assets/Fonts/5319305/12655020-1f98-459e-b60f-4d5bb18e7b07.eot?#iefix") format("eot"),url("./assets/Fonts/5319305/6adf077b-8f22-4fa2-8237-7551caa9630e.woff2") format("woff2"),url("./assets/Fonts/5319305/bc891c28-0d98-46dd-b452-700113880885.woff") format("woff"),url("./assets/Fonts/5319305/9717935e-dfae-4426-b5d5-a8bdabf61bfd.ttf") format("truetype");
+}
+@font-face {
+    font-family:"Averta W05 Regular";
+    src: url("./assets/Fonts/5347752/3b03f6ec-36d7-4d82-a44b-21fe353d130c.eot?#iefix");
+    src: url("./assets/Fonts/5347752/3b03f6ec-36d7-4d82-a44b-21fe353d130c.eot?#iefix") format("eot"),url("./assets/Fonts/5347752/1884c706-11df-4e95-bc48-bf0b86c5ea0d.woff2") format("woff2"),url("./assets/Fonts/5347752/9d8f231a-02b6-4182-a102-bf4e36246ad8.woff") format("woff"),url("./assets/Fonts/5347752/28241ae0-5375-47a3-9b79-2c9b71a80c64.ttf") format("truetype");
+}
+@font-face {
+    font-family:"Averta W05 Bold";
+    src: url("./assets/Fonts/5358128/8d73f8c3-6964-45cc-abf5-af33dbf93780.eot?#iefix");
+    src: url("./assets/Fonts/5358128/8d73f8c3-6964-45cc-abf5-af33dbf93780.eot?#iefix") format("eot"),url("./assets/Fonts/5358128/45d61f5d-2bc7-4523-af37-fc34b531436a.woff2") format("woff2"),url("./assets/Fonts/5358128/96718e97-ce9e-41ef-a620-5d5f29223e54.woff") format("woff"),url("./assets/Fonts/5358128/a9f9cfa8-95c1-45aa-af57-f0e9973a5c07.ttf") format("truetype");
+}
+
+// Meed variables
+$regular-padding: 15px;
+
+.meed-logo {
+  width: 118px;
+  height: 70px;
+  fill: $white;
+  padding: 0px;
+  &:focus{
+    padding: 0px;
+  }
+}
+.navbar-item img {
+  max-height:3.5rem !important; 
+}
+
+// Custom styles
+.has-rounded-corners {
+  border-radius: $radius-large;
+}
+
+.has-rounded-top-corners {
+  padding: $regular-padding;
+  border-top-left-radius: $radius-large;
+  border-top-right-radius: $radius-large;
+}
+
+.has-rounded-bottom-corners {
+  border-bottom-left-radius: $radius-large;
+  border-bottom-right-radius: $radius-large;
+}
+
+.has-bottom-border {
+  padding: .4375rem;
+}
+
+.has-averta-light-font {
+  font-family: "Averta W05 Light", sans-serif;
+}
+
+.has-averta-regular-font {
+  font-family: "Averta W05 Regular", sans-serif;
+}
+
+.has-averta-bold-font {
+  font-family: "Averta W05 Bold", sans-serif;
+}
+
+.is-tile-row {
+  margin-bottom: 3.125rem;
+}
+
+.has-tile-text-centered {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.has-left-justified-content {
+  justify-content: flex-start;
+}
+
+.is-circle {
+  background: url('./assets/images/circle_graph.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.subtitle {
+  &.is-display {
+    font-size: 4rem;
+  }
+}
+
+.is-extra-large {
+  padding: 1.125rem 4.8125rem;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  height: initial;
+  border-radius: 0.5rem;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 217px;
+  height: 48px;
+  border: 3px solid $primary;
+  border-radius: 10px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "Month";
+  height: 48px;
+  width: 107px;
+  left: -1px;
+  bottom: -2px;
+  background-color: $primary;
+  -webkit-transition: .4s;
+  transition: .4s;
+  color: $white;
+  padding: 13px;
+  padding-left: 26px;
+}
+.slider:after {
+  position: absolute;
+  content: "Year";
+  height: 48px;
+  width: 107px;
+  right: -1px;
+  bottom: -2px;
+  -webkit-transition: .4s;
+  transition: .4s;
+  color: $primary;
+  padding: 13px;
+  padding-left: 26px;
+}
+
+input:checked + .slider {
+  background-color: $white;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px $white;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(107px);
+  -ms-transform: translateX(107px);
+  transform: translateX(107px);
+  content: "Year";
+  color: $white;
+}
+
+input:checked + .slider:after {
+  -webkit-transform: translateX(-107px);
+  -ms-transform: translateX(-107px);
+  transform: translateX(-107px);
+  content: "Month";
+  color: $primary;
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 10px;
+}
+
+.slider.round:before {
+  border-radius: 10px;
+}

@@ -1,0 +1,21 @@
+@import "../../_variables.sass";
+
+.navbar.is-primary .navbar-end > a.navbar-item{
+    &:hover{
+        background-color: $primary;
+    }
+}
+.navbar-menu{
+    background-color: $primary
+}
+
+.Header__logoutBtn{
+    font-weight: bold;
+    border: 2px solid $white;
+    background-color: $primary;
+    color: $white;
+
+    &:hover{
+        color: rgba(255, 255, 255, 0.356);
+    }
+}
