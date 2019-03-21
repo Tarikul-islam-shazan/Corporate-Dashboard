@@ -84,8 +84,8 @@ class Login extends React.Component {
     return (
       <div className="authBody">
         {this.state.loader}
-        <Section>
-          <Container fluid>
+        <Section >
+          <Container fluid className="auth_container">
             <Logo meed_logo={"meed-logo1"} />
           </Container>
         </Section>

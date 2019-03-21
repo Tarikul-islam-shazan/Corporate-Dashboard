@@ -20,12 +20,12 @@ class Header extends React.Component {
   };
 
   render() {
-    const open = this.state.open;
+    // const open = this.state.open;
     return (
       <React.Fragment>
-        <Section className="has-background-primary">
-          <Container fluid>
-            <Navbar color="primary" active="{open}" >
+        <Section className="has-background-primary header_section-padding">
+          <Container fluid className="header_container">
+            <Navbar color="primary"  >{/* active={open} */} 
               <Navbar.Brand>
                 <Navbar.Item renderAs="a" href="#">
                   <Logo meed_logo={"meed-logo"} />
@@ -37,10 +37,10 @@ class Header extends React.Component {
                   }
                 /> */}
               </Navbar.Brand>
-              <Navbar.Menu active={open}>
-                <Navbar.Container>
-                  <Navbar.Item renderAs="div">
-                    <Heading size={1} className="is-uppercase has-text-white">
+              {/* <Navbar.Menu active={open}> */}
+                <Navbar.Container position="end">
+                  <Navbar.Item renderAs="div" >
+                    <Heading size={2} className="is-uppercase has-text-white ">
                       Corporate Member Dashboard
                 </Heading>
                   </Navbar.Item>
@@ -50,13 +50,13 @@ class Header extends React.Component {
                     <Button     className='Header__logoutBtn' onClick={this.handleLogout}>Logout</Button>
                   </Navbar.Item>
                 </Navbar.Container>
-              </Navbar.Menu>
+              {/* </Navbar.Menu> */}
             </Navbar>
           </Container>
         </Section>
 
-        <Section className="has-background-light">
-          <Container fluid>
+        <Section className="has-background-light header_section-padding2">
+          <Container fluid className="header_container">
             <Heading size={2} className="has-text-primary">
               Joe Cooper Auto Group
             </Heading>

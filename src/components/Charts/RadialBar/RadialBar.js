@@ -59,7 +59,7 @@ class RadialBar extends Component {
     render() {
         return (
             <div className="maxed-chart">
-                <Chart options={this.state.options} series={this.props.share? [this.props.share]:[]} type="radialBar" height="250" />
+                <Chart options={this.state.options} series={this.props.share? [this.props.share]:[0]} type="radialBar" height="250" />
                 <p className="chartSubTitle">This {this.props.month_year? this.props.month_year:''}</p>
                 <p className="chartTitle">{this.props.title? this.props.title:''}: 2,100</p>
             </div>

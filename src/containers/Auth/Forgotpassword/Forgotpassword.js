@@ -72,7 +72,7 @@ class Forgotpassword extends React.Component {
             <div className="authBody">
                 {this.state.loader}
                 <Section>
-                    <Container fluid>
+                    <Container fluid className="auth_container">
                         <Logo meed_logo={"meed-logo1"} />
                     </Container>
                 </Section>

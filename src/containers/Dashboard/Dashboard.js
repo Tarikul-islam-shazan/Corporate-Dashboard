@@ -3,13 +3,14 @@ import React from "react";
 import Heading from "react-bulma-components/lib/components/heading";
 import Section from "react-bulma-components/lib/components/section";
 import Container from "react-bulma-components/lib/components/container";
-// import Navbar from "react-bulma-components/lib/components/navbar";
 import Level from "react-bulma-components/lib/components/level";
 import Tile from "react-bulma-components/lib/components/tile";
 import Meedloader from "../../components/Meedloader/Meedloader";
 import Switch from "../../components/Switch/Switch";
 import Header from "../../components/Header/Header";
 import RadialBar from "../../components/Charts/RadialBar/RadialBar";
+import Card from "../../components/Card/Card";
+
 import './Dashboard.scss';
 import {
   clearStorage,
@@ -33,8 +34,8 @@ class Dashboard extends React.Component {
   state = {
     bankApplication: 0,
     activeUser: 0,
-    totalShare: 1,
-    totalcShare: 1,
+    totalShare: 0,
+    totalcShare: 0,
     loader: "",
     groupSize: 1,
     month_year: "Month"
@@ -175,79 +176,29 @@ class Dashboard extends React.Component {
               <Tile kind="ancestor" className="has-averta-regular-font">
                 <Tile size={4} vertical>
                   <Tile className="is-tile-row">
-                    <Tile kind="parent">
-                      <Tile renderAs="article" kind="child">
-                        <Tile
-                          vertical
-                          className="has-background-grey-qua has-rounded-top-corners"
-                        >
-                          <p className="subtitle is-2">
-                            {this.state.bankApplication}
-                          </p>
-                          <p>
-                            <strong>Bank Applications</strong>
-                          </p>
-                          <p>This {this.state.month_year}</p>
-                        </Tile>
-                        <Tile className="has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box" />
-                      </Tile>
-                    </Tile>
 
-                    <Tile kind="parent">
-                      <Tile renderAs="article" kind="child">
-                        <Tile
-                          vertical
-                          className="has-background-grey-qua has-rounded-top-corners"
-                        >
-                          <p className="subtitle is-2">
-                            {this.state.activeUser}
-                          </p>
-                          <p>
-                            <strong>Active Users</strong>
-                          </p>
-                          <p>This {this.state.month_year}</p>
-                        </Tile>
-                        <Tile className="has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box" />
-                      </Tile>
-                    </Tile>
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={this.state.bankApplication}
+                      cardText={"Bank Applications"} monthYear={"This "+this.state.month_year}
+                      footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"} />
+
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={this.state.activeUser}
+                      cardText={"Active Users"} monthYear={"This "+this.state.month_year}
+                      footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"} />
+
                   </Tile>
 
                   <Tile className="is-tile-row">
-                    <Tile kind="parent">
-                      <Tile renderAs="article" kind="child">
-                        <Tile
-                          vertical
-                          className="has-background-grey-qua has-rounded-top-corners"
-                        >
-                          <p className="subtitle is-2">$516.26</p>
-                          <p>
-                            <strong>SocialBoost Income</strong>
-                          </p>
-                          <p>This {this.state.month_year}</p>
-                        </Tile>
-                        <Tile className="has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box" />
-                      </Tile>
-                    </Tile>
 
-                    <Tile kind="parent">
-                      <Tile renderAs="article" kind="child">
-                        <Tile
-                          vertical
-                          className="has-background-grey-qua has-rounded-top-corners"
-                        >
-                          <p className="subtitle is-2">2</p>
-                          <p>
-                            <strong>Shares Ranking</strong>
-                          </p>
-                          <p>This {this.state.month_year}</p>
-                        </Tile>
-                        <Tile className="has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box" />
-                      </Tile>
-                    </Tile>
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$516.26"}
+                      cardText={"SocialBoost Income"} monthYear={"This "+this.state.month_year}
+                      footerClass={"has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box"} />
+
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"2"}
+                      cardText={"Shares Ranking"} monthYear={"This "+this.state.month_year}
+                      footerClass={"has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box"} />
+
                   </Tile>
                 </Tile>
-
-
 
                 <Tile kind="parent" vertical>
                   <RadialBar share={this.state.totalShare} name={"of all Shares"} title={"Total Shares"} month_year={this.state.month_year} />
@@ -259,6 +210,174 @@ class Dashboard extends React.Component {
               </Tile>
             </Container>
           </Section>
+
+
+          <Section>
+            <Container fluid>
+              <Level renderAs="nav">
+                <Level.Side align="left">
+                  <Level.Item>
+                    <Heading
+                      subtitle
+                      size={4}
+                      className="has-text-primary has-text-weight-bold"
+                    >
+                      MeedExtras Summary: <em>This {this.state.month_year}</em>
+                    </Heading>
+                  </Level.Item>
+                </Level.Side>
+
+                <Level.Side align="right">
+                  <Switch
+                    groupSize={this.state.groupSize}
+                    groupOptions={groupOptions}
+                    toggle={this.monthYearToggle}
+                  />
+                </Level.Side>
+              </Level>
+              <hr />
+            </Container>
+          </Section>
+
+          <Section>
+            <Container fluid>
+              <Tile kind="ancestor" className="has-averta-regular-font">
+                <Tile size={8} vertical>
+                  <Tile className="is-tile-row">
+
+                    <Tile kind="parent">
+                      <Level.Side align="left">
+                        <Level.Item>
+                          <Heading
+                            subtitle
+                            size={6}
+                            className="has-text-primary has-text-weight-bold">Purchase <br />Discounts
+                          </Heading>
+                        </Level.Item>
+                      </Level.Side>
+                    </Tile>
+
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$1,054"}
+                      monthYear={"Saved This" + this.state.month_year}
+                      footerClass={"has-bottom-border has-background-purple has-rounded-bottom-corners is-bottom-color-box"} />
+
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"197"}
+                      monthYear={"Shares Using Extras"}
+                      footerClass={"has-bottom-border has-background-purple has-rounded-bottom-corners is-bottom-color-box"} />
+
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"264"}
+                      monthYear={"Purchases Made"}
+                      footerClass={"has-bottom-border has-background-purple has-rounded-bottom-corners is-bottom-color-box"} />
+
+                  </Tile>
+
+                  <Tile size={9} className="is-tile-row">
+
+                    <Tile kind="parent">
+                      <Level.Side align="left">
+                        <Level.Item>
+                          <Heading
+                            subtitle
+                            size={6}
+                            className="has-text-primary has-text-weight-bold">Payroll <br />Savings
+                          </Heading>
+                        </Level.Item>
+                      </Level.Side>
+                    </Tile>
+
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$2,250"}
+                      monthYear={"Saved This" + this.state.month_year}
+                      footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"} />
+
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"225"}
+                      monthYear={"Emplyess Enrolled" }
+                      footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"} />
+
+                  </Tile>
+
+                  <Tile size={9} className="is-tile-row">
+
+                    <Tile kind="parent">
+                      <Level.Side align="left">
+                        <Level.Item>
+                          <Heading
+                            subtitle
+                            size={6}
+                            className="has-text-primary has-text-weight-bold">Group Term <br />Live Savings
+                          </Heading>
+                        </Level.Item>
+                      </Level.Side>
+                    </Tile>
+
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$450"}
+                      monthYear={"Saved This" + this.state.month_year}
+                      footerClass={"has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box"} />
+
+                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"225"}
+                      monthYear={"Emplyess Enrolled"}
+                      footerClass={"has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box"} />
+
+
+                  </Tile>
+
+                  <Tile size={9} className="is-tile-row">
+
+                    <Tile kind="parent">
+                      <Level.Side align="left">
+                        <Level.Item>
+                          <Heading
+                            subtitle
+                            size={6}
+                            className="has-text-primary has-text-weight-bold">Total <br />
+                          </Heading>
+                        </Level.Item>
+                      </Level.Side>
+                    </Tile>
+
+                    <Card subtitle={"subtitle is-2 has-subtitle-white"} bodyClass={"has-background-purple has-rounded-top-corners has-font-white"} cardData={"$2,700"}
+                      monthYear={"Employer Savings This" + this.state.month_year}
+                      footerClass={"has-bottom-border has-background-grey-qua has-rounded-bottom-corners is-bottom-color-box"} />
+
+                    <Card subtitle={"subtitle is-2 has-subtitle-white"} bodyClass={"has-background-purple has-rounded-top-corners has-font-white"} cardData={"$1,054"}
+                      monthYear={"Employee Savings This " + this.state.month_year}
+                      footerClass={"has-bottom-border has-background-grey-qua has-rounded-bottom-corners is-bottom-color-box"} />
+
+
+                  </Tile>
+
+                </Tile>
+              </Tile>
+            </Container>
+          </Section>
+
+
+          <Section>
+            <Container fluid>
+              <Level renderAs="nav">
+                <Level.Side align="left">
+                  <Level.Item>
+                    <Heading
+                      subtitle
+                      size={4}
+                      className="has-text-primary has-text-weight-bold"
+                    >
+                      Employee Totals: <em>This {this.state.month_year}</em>
+                    </Heading>
+                  </Level.Item>
+                </Level.Side>
+
+                <Level.Side align="right">
+                  <Switch
+                    groupSize={this.state.groupSize}
+                    groupOptions={groupOptions}
+                    toggle={this.monthYearToggle}
+                  />
+                </Level.Side>
+              </Level>
+              <hr />
+            </Container>
+          </Section>
+
         </React.Fragment>
       </div>
     );

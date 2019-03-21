@@ -30,9 +30,10 @@
 // Meed variables
 $regular-padding: 15px;
 
+
 .meed-logo {
-  width: 118px;
-  height: 70px;
+  width: 98px;
+  height: 49px;
   fill: $white;
   padding: 0px;
   &:focus{
@@ -76,7 +77,7 @@ $regular-padding: 15px;
 }
 
 .is-tile-row {
-  margin-bottom: 3.125rem;
+  margin-bottom: 1.2rem;
 }
 
 .has-tile-text-centered {
@@ -101,6 +102,7 @@ $regular-padding: 15px;
   &.is-display {
     font-size: 4rem;
   }
+  margin-bottom: 5px !important;
 }
 
 .is-extra-large {
