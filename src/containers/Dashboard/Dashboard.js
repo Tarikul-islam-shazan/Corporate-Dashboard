@@ -9,6 +9,8 @@ import Meedloader from "../../components/Meedloader/Meedloader";
 import Switch from "../../components/Switch/Switch";
 import Header from "../../components/Header/Header";
 import RadialBar from "../../components/Charts/RadialBar/RadialBar";
+import Bar from "../../components/Charts/Bar/Bar";
+import Line from "../../components/Charts/Line/Line";
 import Card from "../../components/Card/Card";
 
 import './Dashboard.scss';
@@ -38,7 +40,23 @@ class Dashboard extends React.Component {
     totalcShare: 0,
     loader: "",
     groupSize: 1,
-    month_year: "Month"
+    month_year: "Month",
+
+
+    applicationGraph: false,
+    userGraph: false,
+    incomeGraph: false,
+    applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+    userGraphBodyCss: 'has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
+    incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+    applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+    userGraphFooterCss: 'has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+    incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
+
+    graphColor: "",
+    series: {},
+    graphType: "line"
+
   };
 
   componentDidMount() {
@@ -47,6 +65,35 @@ class Dashboard extends React.Component {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  applicationGraphClick = () => {
+
+    if (this.state.applicationGraph) {
+
+      this.setState({
+        graphType: "line",
+        applicationGraph: !this.state.applicationGraph,
+        applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box'
+      })
+    } else {
+      this.setState({
+        graphType: "bar",
+        applicationGraph: !this.state.applicationGraph,
+        applicationGraphBodyCss: ' has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: ' has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box'
+      })
+    }
+
+  }
+
+  userGraphClick = () => {
+    alert("user Graph Click");
+  }
+
+  incomeGraphClick = () => {
+    alert("income Graph Click");
   }
 
   monthYearToggle = value => {
@@ -138,6 +185,8 @@ class Dashboard extends React.Component {
     }
   };
 
+
+
   render() {
     return (
       <div>
@@ -177,24 +226,24 @@ class Dashboard extends React.Component {
                 <Tile size={4} vertical>
                   <Tile className="is-tile-row">
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={this.state.bankApplication}
-                      cardText={"Bank Applications"} monthYear={"This "+this.state.month_year}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={this.state.bankApplication}
+                      cardText={"Bank Applications"} monthYear={"This " + this.state.month_year}
                       footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"} />
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={this.state.activeUser}
-                      cardText={"Active Users"} monthYear={"This "+this.state.month_year}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={this.state.activeUser}
+                      cardText={"Active Users"} monthYear={"This " + this.state.month_year}
                       footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"} />
 
                   </Tile>
 
                   <Tile className="is-tile-row">
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$516.26"}
-                      cardText={"SocialBoost Income"} monthYear={"This "+this.state.month_year}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$516.26"}
+                      cardText={"SocialBoost Income"} monthYear={"This " + this.state.month_year}
                       footerClass={"has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box"} />
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"2"}
-                      cardText={"Shares Ranking"} monthYear={"This "+this.state.month_year}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"2"}
+                      cardText={"Shares Ranking"} monthYear={"This " + this.state.month_year}
                       footerClass={"has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box"} />
 
                   </Tile>
@@ -257,15 +306,15 @@ class Dashboard extends React.Component {
                       </Level.Side>
                     </Tile>
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$1,054"}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$1,054"}
                       monthYear={"Saved This" + this.state.month_year}
                       footerClass={"has-bottom-border has-background-purple has-rounded-bottom-corners is-bottom-color-box"} />
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"197"}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"197"}
                       monthYear={"Shares Using Extras"}
                       footerClass={"has-bottom-border has-background-purple has-rounded-bottom-corners is-bottom-color-box"} />
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"264"}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"264"}
                       monthYear={"Purchases Made"}
                       footerClass={"has-bottom-border has-background-purple has-rounded-bottom-corners is-bottom-color-box"} />
 
@@ -285,12 +334,12 @@ class Dashboard extends React.Component {
                       </Level.Side>
                     </Tile>
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$2,250"}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$2,250"}
                       monthYear={"Saved This" + this.state.month_year}
                       footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"} />
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"225"}
-                      monthYear={"Emplyess Enrolled" }
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"225"}
+                      monthYear={"Emplyess Enrolled"}
                       footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"} />
 
                   </Tile>
@@ -309,11 +358,11 @@ class Dashboard extends React.Component {
                       </Level.Side>
                     </Tile>
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$450"}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$450"}
                       monthYear={"Saved This" + this.state.month_year}
                       footerClass={"has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box"} />
 
-                    <Card subtitle={"subtitle is-2"}bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"225"}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"225"}
                       monthYear={"Emplyess Enrolled"}
                       footerClass={"has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box"} />
 
@@ -378,6 +427,47 @@ class Dashboard extends React.Component {
             </Container>
           </Section>
 
+          <Section>
+            <Container fluid>
+              <Tile kind="ancestor" className="has-averta-regular-font">
+                <Tile size={6} vertical>
+                  <Tile className="is-tile-row">
+
+                    <a onClick={this.applicationGraphClick}>
+                      <Card subtitle={"subtitle is-2 has-subtitle-white"} bodyClass={this.state.applicationGraphBodyCss} cardData={"230"}
+                        monthYear={"Bank Application"}
+                        footerClass={this.state.applicationGraphFooterCss}
+                      />
+                    </a>
+                    <a onClick={this.userGraphClick}>
+                      <Card subtitle={"subtitle is-2 has-subtitle-white"} bodyClass={this.state.userGraphBodyCss} cardData={"311"}
+                        monthYear={"Active Users (Shares)"}
+                        footerClass={this.state.userGraphFooterCss}
+                      />
+                    </a>
+                    <a onClick={this.incomeGraphClick}>
+                      <Card subtitle={"subtitle is-2 has-subtitle-white"} bodyClass={this.state.incomeGraphBodyCss} cardData={"$4,321"}
+                        monthYear={"MeedShare Income"}
+                        footerClass={this.state.incomeGraphFooterCss}
+                      />
+                    </a>
+                  </Tile>
+                </Tile>
+              </Tile>
+            </Container>
+          </Section>
+
+          <Section>
+            <Container fluid>
+              <div className="graphArea">
+                {
+                  this.state.graphType == "bar" ?
+                    <Line graphColor={this.state.graphColor} graphType={this.state.graphType} series={this.state.series} /> :
+                    <Bar graphColor={this.state.graphColor} graphType={this.state.graphType} series={this.state.series} />
+                }
+              </div>
+            </Container>
+          </Section>
         </React.Fragment>
       </div>
     );
