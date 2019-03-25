@@ -53,9 +53,10 @@ class Dashboard extends React.Component {
     userGraphFooterCss: 'has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
     incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
 
-    graphColor: "",
-    series: {},
-    graphType: "line"
+    graphColor: ["#FF925D"],
+    series: [{name: ' ',data: []}],
+    graphType: "bar",
+    legend: true
 
   };
 
@@ -67,33 +68,155 @@ class Dashboard extends React.Component {
     }
   }
 
-  applicationGraphClick = () => {
-
-    if (this.state.applicationGraph) {
+  application_user_graph = async () => {
+    if (this.state.applicationGraph && this.state.userGraph) {
+      this.setState({
+        series: [
+          {
+            name: "Bank Application",
+            data: [110, 296, 300, 10, null, null, null, null, null, null, null, null]
+          },
+          {
+            name: "Active User",
+            data: [54, 96, 80, 100, null, null, null, null, null, null, null, null]
+          }
+        ],
+        graphType: "line",
+        legend: true,
+        graphColor: ["#FF925D", "#53C9FF"],
+        applicationGraphBodyCss: ' has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: ' has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+      })
+    }
+    else if (this.state.applicationGraph) {
 
       this.setState({
+        series: [
+          {
+            name: "Bank Application",
+            data: [110, 296, 300, 10, null, null, null, null, null, null, null, null]
+          },
+          {
+            name: '',
+            data: []
+          }
+        ],
         graphType: "line",
-        applicationGraph: !this.state.applicationGraph,
+        legend: true,
+        graphColor: ["#FF925D"],
+        applicationGraphBodyCss: ' has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
+      })
+    }
+    else if (this.state.userGraph) {
+
+      this.setState({
+        series: [
+          {
+            name: '',
+            data: []
+          },
+          {
+            name: "Active User",
+            data: [54, 96, 80, 100, null, null, null, null, null, null, null, null]
+          }
+        ],
+        graphType: "line",
+        legend: true,
+        graphColor: ["#53C9FF"],
+        userGraphBodyCss: 'has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
         applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
-        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box'
+        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
       })
     } else {
       this.setState({
+        series: [
+          {
+            name: " ",
+            data: [null, null, null, null, null, null, null, null, null, null, null, null]
+          }
+        ],
         graphType: "bar",
-        applicationGraph: !this.state.applicationGraph,
-        applicationGraphBodyCss: ' has-background-salmon has-rounded-top-corners has-font-white',
-        applicationGraphFooterCss: ' has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box'
+        legend: false,
+        graphColor: ["#53C9FF"],
+        applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
       })
     }
 
   }
 
-  userGraphClick = () => {
-    alert("user Graph Click");
+  income_graph = ()=>{
+    if (this.state.incomeGraph) {
+
+      this.setState({
+        series: [
+          {
+            name: "MeedShare Income",
+            data: [110, 296, 300, 10, null, null, null, null, null, null, null, null]
+          }
+        ],
+        graphType: "bar",
+        legend: true,
+        graphColor: ["#1DD090"],
+        applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-card-opacity has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-card-opacity has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: ' has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: ' has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
+      })
+    }else {
+      this.setState({
+        series: [
+          {
+            name: " ",
+            data: [null, null, null, null, null, null, null, null, null, null, null, null]
+          }
+        ],
+        graphType: "bar",
+        legend: false,
+        graphColor: ["#1DD090"],
+        applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
+      })
+    }
   }
 
-  incomeGraphClick = () => {
-    alert("income Graph Click");
+  applicationGraphClick = async () => {
+    await this.setState({ applicationGraph: !this.state.applicationGraph });
+    await this.setState({ incomeGraph: false });
+    await this.application_user_graph();
+  }
+
+  userGraphClick = async () => {
+    await this.setState({ userGraph: !this.state.userGraph });
+    await this.setState({ incomeGraph: false });
+    await this.application_user_graph();
+  }
+
+  incomeGraphClick = async() => {
+    await this.setState({ incomeGraph: !this.state.incomeGraph });
+    await this.setState({ applicationGraph: false });
+    await this.setState({ userGraph: false });
+    await this.income_graph();
   }
 
   monthYearToggle = value => {
@@ -461,9 +584,9 @@ class Dashboard extends React.Component {
             <Container fluid>
               <div className="graphArea">
                 {
-                  this.state.graphType == "bar" ?
-                    <Line graphColor={this.state.graphColor} graphType={this.state.graphType} series={this.state.series} /> :
-                    <Bar graphColor={this.state.graphColor} graphType={this.state.graphType} series={this.state.series} />
+                  this.state.graphType === "line" ?
+                    <Line series={this.state.series} legend={this.state.legend} graphColor={this.state.graphColor} graphType={this.state.graphType}  /> :
+                    <Bar series={this.state.series} graphColor={this.state.graphColor} graphType={this.state.graphType}  />
                 }
               </div>
             </Container>

@@ -29,6 +29,28 @@ class Bar extends Component {
                     "November " + new Date().getFullYear().toString().substr(-2),
                     "December " + new Date().getFullYear().toString().substr(-2)]
                 },
+                yaxis: {
+                    show: true,
+                    showAlways: true,
+                    tickAmount: 6,
+                    forceNiceScale: false,
+                    floating: false,
+                    decimalsInFloat: 2,
+                    axisBorder: {
+                        show: true,
+                        color: '#78909C',
+                        offsetX: 0,
+                        offsetY: 0
+                    },
+                    axisTicks: {
+                        show: true,
+                        borderType: 'solid',
+                        color: '#78909C',
+                        width: 6,
+                        offsetX: 0,
+                        offsetY: 0
+                    },
+                },
                 colors: ['#1DD090'],
                 plotOptions: {
                     bar: {
@@ -54,7 +76,7 @@ class Bar extends Component {
                 dataLabels: {
                     enabled: true,
                     formatter: function (val) {
-                        return val;
+                        return "$"+ val;
                     },
                     offsetY: -30,
                     textAnchor: 'middle',
@@ -75,9 +97,10 @@ class Bar extends Component {
                     }
                 },
                 legend: {
+                    show: false,
                     position: 'right',
                     offsetY: 40,
-                    showForSingleSeries: true,
+                    showForSingleSeries: false,
                     floating: false,
                     fontSize: '14px',
                     fontFamily: 'Helvetica, Arial',
@@ -86,25 +109,25 @@ class Bar extends Component {
 
             },
             series: [
-                {
-                    name: "series-1",
-                    data: [120, null, null, null, null, null, null, null, null, null, null, null]
-                }
+                
             ],
-            type:'line'
         };
     }
 
-    componentWillReceiveProps= (nextProps)=>{
-        this.setState({type:nextProps.graphType});
+    componentWillReceiveProps = async (nextProps) => {
+        let newOpt = { ...this.state.options };
+        newOpt.colors = nextProps.graphColor;
+        newOpt.legend.show = nextProps.legend;
+        await this.setState({ options: newOpt });
+
     }
 
     render() {
-        console.log(this.props.graphType);
+        
         return (
             <Chart
                 options={this.state.options}
-                series={this.state.series}
+                series={this.props.series}
                 type="bar"
                 //width="900"
                 height="500"
