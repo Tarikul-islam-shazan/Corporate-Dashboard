@@ -51,6 +51,7 @@ class Bar extends Component {
                         offsetY: 0
                     },
                 },
+                
                 colors: ['#1DD090'],
                 plotOptions: {
                     bar: {
@@ -78,7 +79,7 @@ class Bar extends Component {
                     formatter: function (val) {
                         return "$"+ val;
                     },
-                    offsetY: -30,
+                    offsetY: -25,
                     textAnchor: 'middle',
                     height: "10px",
                     width: "20px",

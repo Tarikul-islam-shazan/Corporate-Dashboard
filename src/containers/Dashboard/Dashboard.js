@@ -1,5 +1,4 @@
 import React from "react";
-
 import Heading from "react-bulma-components/lib/components/heading";
 import Section from "react-bulma-components/lib/components/section";
 import Container from "react-bulma-components/lib/components/container";
@@ -32,16 +31,33 @@ const groupOptions = [
   }
 ];
 
+const groupOptions_employee_total = [
+  {
+    displayName: "Month",
+    value: 1
+  },
+  {
+    displayName: "Year",
+    value: 2
+  }
+];
+
 class Dashboard extends React.Component {
   state = {
     bankApplication: 0,
     activeUser: 0,
+    socialBoostIncome: 0,
     totalShare: 0,
     totalcShare: 0,
     loader: "",
     groupSize: 1,
+    groupSize_employee_total: 1,
     month_year: "Month",
+    month_year3: "Month",
 
+    applicationGraphData: [],
+    userGraphData: [],
+    incomeGraphData: [null, null, null, null, null, null, null, null, null, null, null, null],
 
     applicationGraph: false,
     userGraph: false,
@@ -54,7 +70,7 @@ class Dashboard extends React.Component {
     incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
 
     graphColor: ["#FF925D"],
-    series: [{name: ' ',data: []}],
+    series: [{ name: ' ', data: [] }],
     graphType: "bar",
     legend: true
 
@@ -68,17 +84,83 @@ class Dashboard extends React.Component {
     }
   }
 
+  graphSeries = async () => {
+    if (this.state.applicationGraph && this.state.userGraph) {
+      this.setState({
+        series: [
+          {
+            name: "Bank Application",
+            data: this.state.applicationGraphData
+          },
+          {
+            name: "Active User",
+            data: this.state.userGraphData
+          }
+        ]
+      });
+    }
+    else if (this.state.applicationGraph) {
+      await this.setState({
+        series: [
+          {
+            name: "Bank Application",
+            data: this.state.applicationGraphData
+          },
+          {
+            name: '',
+            data: []
+          }
+        ]
+      })
+    }
+    else if (this.state.userGraph) {
+      this.setState({
+        series: [
+          {
+            name: '',
+            data: []
+          },
+          {
+            name: "Active User",
+            data: this.state.userGraphData
+          }
+        ]
+      });
+    }
+    else if (this.state.incomeGraph) {
+      this.setState({
+        series: [
+          {
+            name: "MeedShare Income",
+            data: this.state.incomeGraphData
+          }
+        ]
+      });
+    }
+    else {
+      this.setState({
+        series: [
+          {
+            name: " ",
+            data: [null, null, null, null, null, null, null, null, null, null, null, null]
+          }
+        ]
+      });
+    }
+  }
+
+
   application_user_graph = async () => {
     if (this.state.applicationGraph && this.state.userGraph) {
       this.setState({
         series: [
           {
             name: "Bank Application",
-            data: [110, 296, 300, 10, null, null, null, null, null, null, null, null]
+            data: this.state.applicationGraphData
           },
           {
             name: "Active User",
-            data: [54, 96, 80, 100, null, null, null, null, null, null, null, null]
+            data: this.state.userGraphData
           }
         ],
         graphType: "line",
@@ -96,10 +178,10 @@ class Dashboard extends React.Component {
         series: [
           {
             name: "Bank Application",
-            data: [110, 296, 300, 10, null, null, null, null, null, null, null, null]
+            data: this.state.applicationGraphData
           },
           {
-            name: '',
+            name: " ",
             data: []
           }
         ],
@@ -124,7 +206,7 @@ class Dashboard extends React.Component {
           },
           {
             name: "Active User",
-            data: [54, 96, 80, 100, null, null, null, null, null, null, null, null]
+            data: this.state.userGraphData
           }
         ],
         graphType: "line",
@@ -159,14 +241,14 @@ class Dashboard extends React.Component {
 
   }
 
-  income_graph = ()=>{
+  income_graph = () => {
     if (this.state.incomeGraph) {
 
       this.setState({
         series: [
           {
             name: "MeedShare Income",
-            data: [110, 296, 300, 10, null, null, null, null, null, null, null, null]
+            data: this.state.incomeGraphData
           }
         ],
         graphType: "bar",
@@ -179,7 +261,7 @@ class Dashboard extends React.Component {
         incomeGraphBodyCss: ' has-background-green-brighter has-rounded-top-corners has-font-white',
         incomeGraphFooterCss: ' has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
       })
-    }else {
+    } else {
       this.setState({
         series: [
           {
@@ -212,7 +294,7 @@ class Dashboard extends React.Component {
     await this.application_user_graph();
   }
 
-  incomeGraphClick = async() => {
+  incomeGraphClick = async () => {
     await this.setState({ incomeGraph: !this.state.incomeGraph });
     await this.setState({ applicationGraph: false });
     await this.setState({ userGraph: false });
@@ -224,40 +306,140 @@ class Dashboard extends React.Component {
     this.setState({ loader: <Meedloader /> });
     let totalApplication = 0;
     let totalUser = 0;
+    let totalIncome = 0;
+    let totalshare = 0;
+    let totalcshare = 0;
     const hisData = JSON.parse(getDashboardData());
     if (value === 1) {
       let filteData = hisData.filter(data => {
         if (
           data.year === new Date().getFullYear() &&
-          data.month === new Date().getMonth() + 1
+          data.month === new Date().getMonth() + 1 &&
+          data.country === "USA"
         )
           return true;
         return "";
       });
+
       this.setState({
-        bankApplication: filteData[0].application,
-        activeUser: filteData[0].user,
-        totalShare: 10,
-        totalcShare: 6
+        bankApplication: filteData[0].application ? filteData[0].application : 0,
+        activeUser: filteData[0].user ? filteData[0].user : 0,
+        socialBoostIncome: filteData[0].income ? filteData[0].income.toFixed(2) : 0,
+        totalShare: filteData[0].tshare ? filteData[0].tshare : 0,
+        totalcShare: filteData[0].tcshare ? filteData[0].tcshare : 0,
       });
       this.setState({ loader: "", month_year: "Month" });
     } else if (value === 2) {
       let filteData = hisData.filter(data => {
-        if (data.year === new Date().getFullYear()) return true;
+        if (
+          data.year === new Date().getFullYear() &&
+          data.country === "USA"
+        ) return true;
         return "";
       });
+
       for (let i = 0; i < filteData.length; i++) {
-        totalApplication += filteData[i].application;
-        totalUser += filteData[i].user;
+        totalApplication += filteData[i].application ? filteData[i].application : 0;
+        totalUser += filteData[i].user ? filteData[i].user : 0;
+        totalshare += filteData[i].tshare ? filteData[i].tshare : 0;
+        totalcshare += filteData[i].tcshare ? filteData[i].tcshare : 0;
       }
       this.setState({
         bankApplication: totalApplication,
         activeUser: totalUser,
-        totalShare: 30,
-        totalcShare: 12
+        socialBoostIncome: totalIncome.toFixed(2),
+        totalShare: totalshare,
+        totalCShare: totalcshare,
       });
       this.setState({ loader: "", month_year: "Year" });
     }
+  };
+
+
+  monthYearToggle_employee_total = async (value) => {
+
+    this.setState({ groupSize_employee_total: value });
+    this.setState({ loader: <Meedloader /> });
+    const hisData = JSON.parse(getDashboardData());
+    if (value === 1) {
+      let filteData = hisData.filter(data => {
+        if (
+          data.year === new Date().getFullYear() &&
+          data.month === new Date().getMonth() + 1 &&
+          data.country === "USA"
+        )
+          return true;
+        return "";
+      });
+
+      let applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
+      let userData = [null, null, null, null, null, null, null, null, null, null, null, null];
+      let incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
+      for (let i = 0; i < 12; i++) {
+
+        if (filteData.length) {
+
+          if (filteData[i]) {
+            applicationData[filteData[i].month - 1] = filteData[i].application ? filteData[i].application : null;
+            userData[filteData[i].month - 1] = filteData[i].user ? filteData[i].user : null;
+            incomeData[filteData[i].month - 1] = filteData[i].income ? filteData[i].income.toFixed(2) : null;
+          }
+        }
+        else {
+
+          applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
+          userData = [null, null, null, null, null, null, null, null, null, null, null, null];
+          incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
+        }
+      }
+
+
+      await this.setState({
+        applicationGraphData: applicationData,
+        userGraphData: userData
+      });
+      this.setState({ loader: "", month_year3: "Month" });
+
+    } else if (value === 2) {
+      let filteData = hisData.filter(data => {
+        if (
+          data.year === new Date().getFullYear() &&
+          data.country === "USA"
+        ) return true;
+        return "";
+      });
+
+      let applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
+      let userData = [null, null, null, null, null, null, null, null, null, null, null, null];
+      let incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
+      for (let i = 0; i < 12; i++) {
+
+        if (filteData.length) {
+
+          if (filteData[i]) {
+            applicationData[filteData[i].month - 1] = filteData[i].application ? filteData[i].application : null;
+            userData[filteData[i].month - 1] = filteData[i].user ? filteData[i].user : null;
+            incomeData[filteData[i].month - 1] = filteData[i].income ? filteData[i].income.toFixed(2) : null;
+          }
+        }
+        else {
+
+          applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
+          userData = [null, null, null, null, null, null, null, null, null, null, null, null];
+          incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
+        }
+      }
+
+
+      await this.setState({
+        applicationGraphData: applicationData,
+        userGraphData: userData,
+        incomeGraphData: incomeData
+      });
+      this.setState({ loader: "", month_year3: "Year" });
+
+    }
+    await this.graphSeries();
   };
 
   dashBoardData = async () => {
@@ -271,16 +453,43 @@ class Dashboard extends React.Component {
         let filteData = hisData.filter(data => {
           if (
             data.year === new Date().getFullYear() &&
-            data.month === new Date().getMonth() + 1
+            data.month === new Date().getMonth() + 1 &&
+            data.country === "USA"
           )
             return true;
           return "";
         });
+
+
+        let applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
+        let userData = [null, null, null, null, null, null, null, null, null, null, null, null];
+        let incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
+        for (let i = 0; i < 12; i++) {
+
+          if (filteData.length) {
+
+            if (filteData[i]) {
+              applicationData[filteData[i].month - 1] = filteData[i].application ? filteData[i].application : null;
+              userData[filteData[i].month - 1] = filteData[i].user ? filteData[i].user : null;
+              incomeData[filteData[i].month - 1] = filteData[i].income ? filteData[i].income.toFixed(2) : null;
+            }
+          }
+          else {
+
+            applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
+            userData = [null, null, null, null, null, null, null, null, null, null, null, null];
+            incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
+          }
+        }
+
         this.setState({
-          bankApplication: filteData[0].application,
-          activeUser: filteData[0].user,
-          totalShare: 10,
-          totalcShare: 6
+          bankApplication: filteData[0].application ? filteData[0].application : 0,
+          activeUser: filteData[0].user ? filteData[0].user : 0,
+          socialBoostIncome: filteData[0].income ? filteData[0].income.toFixed(2) : 0,
+          totalShare: filteData[0].tshare ? filteData[0].tshare : 0,
+          totalcShare: filteData[0].tcshare ? filteData[0].tcshare : 0,
+          applicationGraphData: applicationData,
+          userGraphData: userData
         });
         this.setState({ loader: "" });
       } else {
@@ -359,31 +568,31 @@ class Dashboard extends React.Component {
 
                   </Tile>
 
-                  <Tile className="is-tile-row">
+                  <Tile size={6} className="is-tile-row">
 
-                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"$516.26"}
+                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={this.state.socialBoostIncome}
                       cardText={"SocialBoost Income"} monthYear={"This " + this.state.month_year}
                       footerClass={"has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box"} />
 
-                    <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"2"}
+                    {/* <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"2"}
                       cardText={"Shares Ranking"} monthYear={"This " + this.state.month_year}
-                      footerClass={"has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box"} />
+                      footerClass={"has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box"} /> */}
 
                   </Tile>
                 </Tile>
 
                 <Tile kind="parent" vertical>
-                  <RadialBar share={this.state.totalShare} name={"of all Shares"} title={"Total Shares"} month_year={this.state.month_year} />
+                  <RadialBar share={12} allShare={this.state.totalShare} name={"of all Shares"} title={"Total Shares"} month_year={this.state.month_year} />
                 </Tile>
 
                 <Tile kind="parent" vertical>
-                  <RadialBar share={this.state.totalcShare} name={"of all Corporate Shares"} title={"Total Corporate Shares"} month_year={this.state.month_year} />
+                  <RadialBar share={20} allShare={this.state.totalcShare} name={"of all Corporate Shares"} title={"Total Corporate Shares"} month_year={this.state.month_year} />
                 </Tile>
               </Tile>
             </Container>
           </Section>
 
-
+          {/* 
           <Section>
             <Container fluid>
               <Level renderAs="nav">
@@ -520,7 +729,7 @@ class Dashboard extends React.Component {
                 </Tile>
               </Tile>
             </Container>
-          </Section>
+          </Section> */}
 
 
           <Section>
@@ -533,16 +742,16 @@ class Dashboard extends React.Component {
                       size={4}
                       className="has-text-primary has-text-weight-bold"
                     >
-                      Employee Totals: <em>This {this.state.month_year}</em>
+                      Employee Totals: <em>This {this.state.month_year3}</em>
                     </Heading>
                   </Level.Item>
                 </Level.Side>
 
                 <Level.Side align="right">
                   <Switch
-                    groupSize={this.state.groupSize}
-                    groupOptions={groupOptions}
-                    toggle={this.monthYearToggle}
+                    groupSize={this.state.groupSize_employee_total}
+                    groupOptions={groupOptions_employee_total}
+                    toggle={this.monthYearToggle_employee_total}
                   />
                 </Level.Side>
               </Level>
@@ -585,8 +794,8 @@ class Dashboard extends React.Component {
               <div className="graphArea">
                 {
                   this.state.graphType === "line" ?
-                    <Line series={this.state.series} legend={this.state.legend} graphColor={this.state.graphColor} graphType={this.state.graphType}  /> :
-                    <Bar series={this.state.series} graphColor={this.state.graphColor} graphType={this.state.graphType}  />
+                    <Line series={this.state.series} legend={this.state.legend} graphColor={this.state.graphColor} graphType={this.state.graphType} /> :
+                    <Bar series={this.state.series} graphColor={this.state.graphColor} graphType={this.state.graphType} />
                 }
               </div>
             </Container>

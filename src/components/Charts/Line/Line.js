@@ -45,6 +45,7 @@ class Line extends Component {
                     show: true,
                     showAlways: true,
                     tickAmount: 6,
+                    min: 10,
                     forceNiceScale: false,
                     floating: false,
                     decimalsInFloat: 2,
@@ -84,12 +85,11 @@ class Line extends Component {
                 }],
 
                 stroke: {
-                    curve: 'smooth',
                     width: [1.5, 1.5]
                 },
                 markers: {
                     size: 16,
-
+                    
                 },
                 dataLabels: {
 
@@ -124,7 +124,7 @@ class Line extends Component {
                     offsetY: 40,
                     showForSingleSeries: true,
                     showForNullSeries: false,
-                    showForZeroSeries: true,
+                    showForZeroSeries: false,
                     floating: false,
                     fontSize: '14px',
                     fontFamily: 'Helvetica, Arial',
@@ -133,7 +133,10 @@ class Line extends Component {
 
             },
             series: [
-
+                {
+                    name: "income",
+                    data: [null, null, null, null, null, null, null, null, null, null, null, null]
+                }
             ],
 
         };
