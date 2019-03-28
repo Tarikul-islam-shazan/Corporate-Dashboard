@@ -11,35 +11,35 @@ import history from "./history";
 import Register from "./containers/Auth/Register/Register";
 
 class App extends Component {
-  componentDidMount() {
-    if (getIsLogin() === "true") {
-      history.push("/");
-    } else {
-      if (history.location.pathname === "/forgot-password") {
-        
-      }
-      else if (history.location.pathname === "/register") {
-        
-      }
-      else{
-        history.push("/login");
-      }
+	componentDidMount() {
+		if (getIsLogin() === "true") {
+			history.push("/");
+		} else {
+			if (history.location.pathname === "/forgot-password") {
 
-    }
-  }
+			}
+			else if (history.location.pathname === "/register") {
 
-  render() {
-    return (
-      <Router history={history}>
-        <Switch>
-          <Route path="/login" exact component={Login} />
-          <Route path="/register" exact component={Register} />
-          <Route path="/" exact component={Dashboard} />
-          <Route path="/forgot-password" exact component={Forgotpassword} />
-        </Switch>
-      </Router>
-    );
-  }
+			}
+			else {
+				history.push("/login");
+			}
+
+		}
+	}
+
+	render() {
+		return (
+			<Router history={history}>
+				<Switch>
+					<Route path="/login" exact component={Login} />
+					<Route path="/register" exact component={Register} />
+					<Route path="/" exact component={Dashboard} />
+					<Route path="/forgot-password" exact component={Forgotpassword} />
+				</Switch>
+			</Router>
+		);
+	}
 }
 
 export default App;

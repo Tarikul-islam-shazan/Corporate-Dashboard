@@ -7,71 +7,71 @@ import Navbar from "react-bulma-components/lib/components/navbar";
 import Button from "react-bulma-components/lib/components/button";
 import './Header.scss';
 
-import   Logo  from "../../components/Logo/Logo";
+import Logo from "../../components/Logo/Logo";
 
 class Header extends React.Component {
-  state = {
-    signedIn: true,
-    open: "true"
-  };
+	state = {
+		signedIn: true,
+		open: "true"
+	};
 
-  handleLogout = () => {
-    this.props.userLogoutHandler();
-  };
+	handleLogout = () => {
+		this.props.userLogoutHandler();
+	};
 
-  render() {
-    // const open = this.state.open;
-    return (
-      <React.Fragment>
-        <Section className="has-background-primary header_section-padding">
-          <Container fluid className="header_container">
-            <Navbar color="primary"  >{/* active={open} */} 
-              <Navbar.Brand>
-                <Navbar.Item renderAs="a" href="#">
-                  <Logo meed_logo={"meed-logo"} />
-                </Navbar.Item>
-                {/* <Navbar.Burger
+	render() {
+		// const open = this.state.open;
+		return (
+			<React.Fragment>
+				<Section className="has-background-primary header_section-padding">
+					<Container fluid className="header_container">
+						<Navbar color="primary"  >{/* active={open} */}
+							<Navbar.Brand>
+								<Navbar.Item renderAs="a" href="#">
+									<Logo meed_logo={"meed-logo"} />
+								</Navbar.Item>
+								{/* <Navbar.Burger
                   active={open}
                   onClick={() =>
                     this.setState({ open: !open })
                   }
                 /> */}
-              </Navbar.Brand>
-              {/* <Navbar.Menu active={open}> */}
-                <Navbar.Container position="end">
-                  <Navbar.Item renderAs="div" >
-                    <Heading size={2} className="is-uppercase has-text-white ">
-                      Corporate Member Dashboard
+							</Navbar.Brand>
+							{/* <Navbar.Menu active={open}> */}
+							<Navbar.Container position="end">
+								<Navbar.Item renderAs="div" >
+									<Heading size={2} className="is-uppercase has-text-white ">
+										Corporate Member Dashboard
                 </Heading>
-                  </Navbar.Item>
-                </Navbar.Container>
-                <Navbar.Container position="end">
-                  <Navbar.Item>
-                    <Button     className='Header__logoutBtn' onClick={this.handleLogout}>Logout</Button>
-                  </Navbar.Item>
-                </Navbar.Container>
-              {/* </Navbar.Menu> */}
-            </Navbar>
-          </Container>
-        </Section>
+								</Navbar.Item>
+							</Navbar.Container>
+							<Navbar.Container position="end">
+								<Navbar.Item>
+									<Button className='Header__logoutBtn' onClick={this.handleLogout}>Logout</Button>
+								</Navbar.Item>
+							</Navbar.Container>
+							{/* </Navbar.Menu> */}
+						</Navbar>
+					</Container>
+				</Section>
 
-        <Section className="has-background-light header_section-padding2">
-          <Container fluid className="header_container">
-            <Heading size={2} className="has-text-primary">
-              Joe Cooper Auto Group
+				<Section className="has-background-light header_section-padding2">
+					<Container fluid className="header_container">
+						<Heading size={2} className="has-text-primary">
+							Joe Cooper Auto Group
             </Heading>
-            <Heading
-              subtitle
-              size={6}
-              className="has-text-primary has-averta-bold-font"
-            >
-              Program active Since March 25, 2019
+						<Heading
+							subtitle
+							size={6}
+							className="has-text-primary has-averta-bold-font"
+						>
+							Program active Since March 25, 2019
             </Heading>
-          </Container>
-        </Section>
-      </React.Fragment>
-    );
-  }
+					</Container>
+				</Section>
+			</React.Fragment>
+		);
+	}
 }
 
 export default Header;
