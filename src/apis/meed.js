@@ -2,8 +2,8 @@ import axios from "axios";
 import history from "../history";
 import { get as getFromLocalStorage, clearStorage, getUserId } from "../common/GlobalVars"
 
-//const BASE_URL = "http://meed-tfqa.meed.net/meed/api/v1.0";
-const BASE_URL = "http://localhost:6060/meed/api/v1.0";
+const BASE_URL = "http://meed-tfqa.meed.net/meed/api/v1.0";
+//const BASE_URL = "http://172.16.228.162:6060/meed/api/v1.0";
 
 export const meedAPI = () =>
 	axios.create({
@@ -54,7 +54,7 @@ export const signUp = async params => await post(params, "/corporate/signUp");
 
 export const logout = async () => await post({}, "/corporate/logout");
 
-export const dashBoard = async () => await get({}, "/dashboard/" + getUserId());
+export const dashBoard = async () => await get({}, "/dashboard?userId=" + getUserId());
 
 export const forgotPassword = async params => await post(params, "/corporate/forgotPassword");
 

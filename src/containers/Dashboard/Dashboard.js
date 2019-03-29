@@ -4,7 +4,6 @@ import Section from "react-bulma-components/lib/components/section";
 import Container from "react-bulma-components/lib/components/container";
 import Level from "react-bulma-components/lib/components/level";
 import Tile from "react-bulma-components/lib/components/tile";
-
 import Meedloader from "../../components/Meedloader/Meedloader";
 import Switch from "../../components/Switch/Switch";
 import Header from "../../components/Header/Header";
@@ -12,11 +11,9 @@ import RadialBar from "../../components/Charts/RadialBar/RadialBar";
 import Bar from "../../components/Charts/Bar/Bar";
 import Line from "../../components/Charts/Line/Line";
 import Card from "../../components/Card/Card";
-
 import { clearStorage, setDashboardData, getDashboardData } from "../../common/GlobalVars";
 import { logout, dashBoard } from "../../apis/meed";
 import './Dashboard.scss';
-
 
 /**** toggle work****/
 const groupOptions = [
@@ -61,7 +58,7 @@ class Dashboard extends React.Component {
 		month_year3: "Month",
 		applicationGraphData: [],
 		userGraphData: [],
-		incomeGraphData: [null, null, null, null, null, null, null, null, null, null, null, null],
+		incomeGraphData: [],
 		applicationGraph: false,
 		userGraph: false,
 		incomeGraph: false,
@@ -77,6 +74,15 @@ class Dashboard extends React.Component {
 		legend: true
 
 	};
+
+
+	componentDidMount() {
+		try {
+			this.dashBoardData();
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	dashBoardData = async () => {
 		this.setState({ loader: <Meedloader /> });
@@ -134,6 +140,7 @@ class Dashboard extends React.Component {
 					mCshare: mcshare.toFixed(2),
 					applicationGraphData: applicationData,
 					userGraphData: userData,
+					incomeGraphData: incomeData,
 					bankApplication2: filteData[0].application ? filteData[0].application : 0,
 					activeUser2: filteData[0].user ? filteData[0].user : 0,
 					socialBoostIncome2: filteData[0].income ? filteData[0].income.toFixed(2) : 0,
@@ -147,13 +154,6 @@ class Dashboard extends React.Component {
 		}
 	};
 
-	componentDidMount() {
-		try {
-			this.dashBoardData();
-		} catch (err) {
-			console.log(err);
-		}
-	}
 
 	graphSeries = async () => {
 		if (this.state.applicationGraph && this.state.userGraph) {
@@ -375,6 +375,7 @@ class Dashboard extends React.Component {
 	}
 	/** End of Employee Totals 3 card click events */
 
+	/** Month to Year toggle event 1 **/
 
 	monthYearToggle = value => {
 		this.setState({ groupSize: value });
@@ -449,11 +450,15 @@ class Dashboard extends React.Component {
 		}
 	};
 
-
+	/** End of Month to Year toggle event 1*/
+	/** Month to Year toggle event 2*/
 	monthYearToggle_employee_total = async (value) => {
 		let totalApplication = 0;
 		let totalUser = 0;
 		let totalIncome = 0;
+		let applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
+		let userData = [null, null, null, null, null, null, null, null, null, null, null, null];
+		let incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
 		this.setState({ groupSize_employee_total: value });
 		this.setState({ loader: <Meedloader /> });
 		const hisData = JSON.parse(getDashboardData());
@@ -468,13 +473,8 @@ class Dashboard extends React.Component {
 				return "";
 			});
 
-			let applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
-			let userData = [null, null, null, null, null, null, null, null, null, null, null, null];
-			let incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
 			for (let i = 0; i < 12; i++) {
-
 				if (filteData.length) {
-
 					if (filteData[i]) {
 						applicationData[filteData[i].month - 1] = filteData[i].application ? filteData[i].application : null;
 						userData[filteData[i].month - 1] = filteData[i].user ? filteData[i].user : null;
@@ -482,17 +482,15 @@ class Dashboard extends React.Component {
 					}
 				}
 				else {
-
 					applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
 					userData = [null, null, null, null, null, null, null, null, null, null, null, null];
 					incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
 				}
 			}
-
-
 			await this.setState({
 				applicationGraphData: applicationData,
 				userGraphData: userData,
+				incomeGraphData: incomeData,
 				bankApplication2: filteData[0].application ? filteData[0].application : 0,
 				activeUser2: filteData[0].user ? filteData[0].user : 0,
 				socialBoostIncome2: filteData[0].income ? filteData[0].income.toFixed(2) : 0,
@@ -508,16 +506,12 @@ class Dashboard extends React.Component {
 				return "";
 			});
 
-
 			for (let i = 0; i < filteData.length; i++) {
 				totalApplication += filteData[i].application ? filteData[i].application : 0;
 				totalUser += filteData[i].user ? filteData[i].user : 0;
 				totalIncome += filteData[i].income ? filteData[i].income : 0;
 			}
 
-			let applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
-			let userData = [null, null, null, null, null, null, null, null, null, null, null, null];
-			let incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
 			for (let i = 0; i < 12; i++) {
 
 				if (filteData.length) {
@@ -529,14 +523,11 @@ class Dashboard extends React.Component {
 					}
 				}
 				else {
-
 					applicationData = [null, null, null, null, null, null, null, null, null, null, null, null];
 					userData = [null, null, null, null, null, null, null, null, null, null, null, null];
 					incomeData = [null, null, null, null, null, null, null, null, null, null, null, null];
 				}
 			}
-
-
 			await this.setState({
 				applicationGraphData: applicationData,
 				userGraphData: userData,
@@ -551,8 +542,9 @@ class Dashboard extends React.Component {
 		await this.graphSeries();
 	};
 
+	/** End of Month to Year toggle event 2*/
 
-
+	/** Logout event work */
 	userLogoutHandler = () => {
 		this.userLogout();
 	};
@@ -569,7 +561,7 @@ class Dashboard extends React.Component {
 			console.log(error);
 		}
 	};
-
+	/** End of Logout event work */
 
 
 	render() {
@@ -626,10 +618,6 @@ class Dashboard extends React.Component {
 										<Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={this.state.socialBoostIncome}
 											cardText={"SocialBoost Income"} monthYear={"This " + this.state.month_year}
 											footerClass={"has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box"} />
-
-										{/* <Card subtitle={"subtitle is-2"} bodyClass={"has-background-grey-qua has-rounded-top-corners"} cardData={"2"}
-                      cardText={"Shares Ranking"} monthYear={"This " + this.state.month_year}
-                      footerClass={"has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box"} /> */}
 
 									</Tile>
 								</Tile>
@@ -818,24 +806,24 @@ class Dashboard extends React.Component {
 								<Tile size={6} vertical>
 									<Tile className="is-tile-row">
 
-										<a onClick={this.applicationGraphClick}>
+										<div className="card-button" onClick={this.applicationGraphClick}>
 											<Card subtitle={"subtitle is-2 has-subtitle-white"} bodyClass={this.state.applicationGraphBodyCss} cardData={this.state.bankApplication2}
 												monthYear={"Bank Application"}
 												footerClass={this.state.applicationGraphFooterCss}
 											/>
-										</a>
-										<a onClick={this.userGraphClick}>
+										</div>
+										<div className="card-button" onClick={this.userGraphClick}>
 											<Card subtitle={"subtitle is-2 has-subtitle-white"} bodyClass={this.state.userGraphBodyCss} cardData={this.state.activeUser2}
 												monthYear={"Active Users (Shares)"}
 												footerClass={this.state.userGraphFooterCss}
 											/>
-										</a>
-										<a onClick={this.incomeGraphClick}>
+										</div>
+										<div className="card-button" onClick={this.incomeGraphClick}>
 											<Card subtitle={"subtitle is-2 has-subtitle-white"} bodyClass={this.state.incomeGraphBodyCss} cardData={this.state.socialBoostIncome2}
 												monthYear={"MeedShare Income"}
 												footerClass={this.state.incomeGraphFooterCss}
 											/>
-										</a>
+										</div>
 									</Tile>
 								</Tile>
 							</Tile>
