@@ -1,7 +1,7 @@
 import React from 'react';
 import './Meedloader.scss';
 
-const Meedloader = () => {
+const MeedLoader = () => {
 	return (
 		<div className="spinner">
 			<div className="cssload-container">
@@ -11,6 +11,6 @@ const Meedloader = () => {
 	)
 };
 
-export default Meedloader;
+export default MeedLoader;
 
 

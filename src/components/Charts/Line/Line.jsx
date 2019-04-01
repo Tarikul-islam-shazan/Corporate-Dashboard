@@ -125,12 +125,7 @@ class Line extends Component {
 					fontFamily: 'Helvetica, Arial',
 				},
 			},
-			series: [
-				{
-					name: "income",
-					data: [null, null, null, null, null, null, null, null, null, null, null, null]
-				}
-			],
+			series: [	],
 		};
 	}
 

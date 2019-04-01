@@ -2,8 +2,8 @@ import axios from "axios";
 import history from "../history";
 import { get as getFromLocalStorage, clearStorage, getUserId } from "../common/GlobalVars"
 
-const BASE_URL = "http://meed-tfqa.meed.net/meed/api/v1.0";
-//const BASE_URL = "http://172.16.228.162:6060/meed/api/v1.0";
+//const BASE_URL = "http://meed-tfqa.meed.net/meed/api/v1.0";
+const BASE_URL = "http://172.16.228.162:6060/meed/api/v1.0";
 
 export const meedAPI = () =>
 	axios.create({

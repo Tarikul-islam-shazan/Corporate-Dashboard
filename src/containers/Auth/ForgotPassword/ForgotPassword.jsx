@@ -7,7 +7,7 @@ import Section from "react-bulma-components/lib/components/section";
 import Separator from "../../../components/Separator/Seperator";
 import Input from "../../../components/Input/Input";
 import Logo from "../../../components/Logo/Logo";
-import "./Forgotpassword.scss";
+import "./ForgotPassword.scss";
 import { forgotPassword } from "../../../apis/meed";
 
 class Forgotpassword extends React.Component {

@@ -4,7 +4,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import "./all.scss";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import Login from "./containers/Auth/Login/Login";
-import Forgotpassword from "./containers/Auth/Forgotpassword/Forgotpassword";
+import ForgotPassword from "./containers/Auth/ForgotPassword/ForgotPassword";
 
 import { getIsLogin } from "./common/GlobalVars";
 import history from "./history";
@@ -35,7 +35,7 @@ class App extends Component {
 					<Route path="/login" exact component={Login} />
 					<Route path="/register" exact component={Register} />
 					<Route path="/" exact component={Dashboard} />
-					<Route path="/forgot-password" exact component={Forgotpassword} />
+					<Route path="/forgot-password" exact component={ForgotPassword} />
 				</Switch>
 			</Router>
 		);

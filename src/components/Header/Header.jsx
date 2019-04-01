@@ -7,7 +7,7 @@ import Navbar from "react-bulma-components/lib/components/navbar";
 import Button from "react-bulma-components/lib/components/button";
 import './Header.scss';
 
-import Logo from "../../components/Logo/Logo";
+import Logo from "../Logo/Logo";
 
 class Header extends React.Component {
 	state = {
