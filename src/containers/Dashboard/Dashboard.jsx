@@ -473,7 +473,7 @@ class Dashboard extends React.Component {
 				activeUser: totalUser,
 				socialBoostIncome: totalIncome.toFixed(2),
 				totalShare: totalshare,
-				totalCShare: totalcshare,
+				totalcShare: totalcshare,
 				mShare: mshare.toFixed(2),
 				mCshare: mcshare.toFixed(2)
 			});
