@@ -12,11 +12,12 @@ import "./Login.scss";
 import { Link } from "react-router-dom";
 import { setIsLogin, set } from "../../../common/GlobalVars";
 import { login } from "../../../apis/meed";
+import uuidv4 from "uuid/v4";
 
 class Login extends React.Component {
 	state = {
 		email: "testc1@yopmail.com",
-		password: "h+V8m4AM",
+		password: "o^V71Kai",
 		modalState: false,
 		modalTitle: "",
 		modalMessage: "",
@@ -60,10 +61,10 @@ class Login extends React.Component {
 			email: email,
 			password: password
 		};
+		set("deviceId", await uuidv4());
 		const data = await login(params);
 		if (data.success) {
-			const { authToken, user } = data;
-			set("authToken", authToken);
+			const { user } = data;
 			set("userId", user);
 			setIsLogin(true);
 			this.props.history.push("/");

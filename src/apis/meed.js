@@ -9,8 +9,10 @@ export const meedAPI = () =>
 	axios.create({
 		baseURL: BASE_URL,
 		headers: {
-			authToken: getAuthToken()
-		}
+			"Content-Type": "application/json",
+			deviceId: getDeviceID()
+		},
+		withCredentials: true
 	});
 
 export const authGaurd = stateCode => {
@@ -46,7 +48,7 @@ export const get = async (params, url) => {
 	}
 };
 
-export const getAuthToken = () => getFromLocalStorage("authToken");
+export const getDeviceID = () => getFromLocalStorage("deviceId");
 
 export const login = async params => await post(params, "/corporate/login");
 
