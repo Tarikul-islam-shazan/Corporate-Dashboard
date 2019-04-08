@@ -14,6 +14,7 @@ import Card from "../../components/Card/Card";
 import { clearStorage, setDashboardData, getDashboardData } from "../../common/GlobalVars";
 import { logout, dashBoard } from "../../apis/meed";
 import './Dashboard.scss';
+import ErrorBoundary from "./../../hoc/ErrorBoundary";
 
 /****toggle work****/
 const groupOptions = [
@@ -622,101 +623,102 @@ class Dashboard extends React.Component {
 
 	render() {
 		return (
-			<div>
-				{this.state.loader}
-				<React.Fragment>
-					<Header userLogoutHandler={this.userLogoutHandler} />
-					<Section>
-						<Container fluid>
-							<Level renderAs="nav">
-								<Level.Side align="left">
-									<Level.Item>
-										<Heading
-											subtitle
-											size={4}
-											className="has-text-primary has-text-weight-bold"
-										>
-											MeedShare Summary: <em>This {this.state.month_year}</em>
-										</Heading>
-									</Level.Item>
-								</Level.Side>
+			<ErrorBoundary>
+				<div>
+					{this.state.loader}
+					<React.Fragment>
+						<Header userLogoutHandler={this.userLogoutHandler} />
+						<Section>
+							<Container fluid>
+								<Level renderAs="nav">
+									<Level.Side align="left">
+										<Level.Item>
+											<Heading
+												subtitle
+												size={4}
+												className="has-text-primary has-text-weight-bold"
+											>
+												MeedShare Summary: <em>This {this.state.month_year}</em>
+											</Heading>
+										</Level.Item>
+									</Level.Side>
 
-								<Level.Side align="right">
-									<Switch
-										groupSize={this.state.groupSize}
-										groupOptions={groupOptions}
-										toggle={this.monthYearToggle}
-									/>
-								</Level.Side>
-							</Level>
-							<hr />
-						</Container>
-					</Section>
-
-					<Section>
-						<Container fluid>
-							<Tile kind="ancestor" className="has-averta-regular-font">
-								<Tile size={4} vertical>
-									<Tile className="is-tile-row">
-
-										<Card
-											subtitle={"subtitle is-2"}
-											bodyClass={"has-background-grey-qua has-rounded-top-corners"}
-											cardData={this.state.bankApplication}
-											cardText={"Bank Applications"}
-											monthYear={"This " + this.state.month_year}
-											footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"}
+									<Level.Side align="right">
+										<Switch
+											groupSize={this.state.groupSize}
+											groupOptions={groupOptions}
+											toggle={this.monthYearToggle}
 										/>
+									</Level.Side>
+								</Level>
+								<hr />
+							</Container>
+						</Section>
 
-										<Card
-											subtitle={"subtitle is-2"}
-											bodyClass={"has-background-grey-qua has-rounded-top-corners"}
-											cardData={this.state.activeUser}
-											cardText={"Active Users"}
-											monthYear={"This " + this.state.month_year}
-											footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"}
-										/>
+						<Section>
+							<Container fluid>
+								<Tile kind="ancestor" className="has-averta-regular-font">
+									<Tile size={4} vertical>
+										<Tile className="is-tile-row">
 
+											<Card
+												subtitle={"subtitle is-2"}
+												bodyClass={"has-background-grey-qua has-rounded-top-corners"}
+												cardData={this.state.bankApplication}
+												cardText={"Bank Applications"}
+												monthYear={"This " + this.state.month_year}
+												footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"}
+											/>
+
+											<Card
+												subtitle={"subtitle is-2"}
+												bodyClass={"has-background-grey-qua has-rounded-top-corners"}
+												cardData={this.state.activeUser}
+												cardText={"Active Users"}
+												monthYear={"This " + this.state.month_year}
+												footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"}
+											/>
+
+										</Tile>
+
+										<Tile size={6} className="is-tile-row">
+
+											<Card
+												subtitle={"subtitle is-2"}
+												bodyClass={"has-background-grey-qua has-rounded-top-corners"}
+												cardData={this.state.socialBoostIncome}
+												cardText={"SocialBoost Income"}
+												monthYear={"This " + this.state.month_year}
+												footerClass={"has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box"}
+											/>
+
+										</Tile>
 									</Tile>
 
-									<Tile size={6} className="is-tile-row">
-
-										<Card
-											subtitle={"subtitle is-2"}
-											bodyClass={"has-background-grey-qua has-rounded-top-corners"}
-											cardData={this.state.socialBoostIncome}
-											cardText={"SocialBoost Income"}
-											monthYear={"This " + this.state.month_year}
-											footerClass={"has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box"}
+									<Tile kind="parent" vertical>
+										<RadialBar
+											share={this.state.mShare}
+											allShare={this.state.totalShare}
+											name={"of all Shares"}
+											title={"Total Shares"}
+											month_year={this.state.month_year}
 										/>
+									</Tile>
 
+									<Tile kind="parent" vertical>
+										<RadialBar
+											share={this.state.mCshare}
+											allShare={this.state.totalcShare}
+											name={"of all Corporate Shares"}
+											title={"Total Corporate Shares"}
+											month_year={this.state.month_year}
+										/>
 									</Tile>
 								</Tile>
+							</Container>
+						</Section>
 
-								<Tile kind="parent" vertical>
-									<RadialBar
-										share={this.state.mShare}
-										allShare={this.state.totalShare}
-										name={"of all Shares"}
-										title={"Total Shares"}
-										month_year={this.state.month_year}
-									/>
-								</Tile>
-
-								<Tile kind="parent" vertical>
-									<RadialBar
-										share={this.state.mCshare}
-										allShare={this.state.totalcShare}
-										name={"of all Corporate Shares"}
-										title={"Total Corporate Shares"}
-										month_year={this.state.month_year}
-									/>
-								</Tile>
-							</Tile>
-						</Container>
-					</Section>
-
-					{/*
+						{/*
           <Section>
             <Container fluid>
               <Level renderAs="nav">
@@ -856,95 +858,96 @@ class Dashboard extends React.Component {
           </Section> */}
 
 
-					<Section>
-						<Container fluid>
-							<Level renderAs="nav">
-								<Level.Side align="left">
-									<Level.Item>
-										<Heading
-											subtitle
-											size={4}
-											className="has-text-primary has-text-weight-bold"
-										>
-											Employee Totals: <em>This {this.state.month_year3}</em>
-										</Heading>
-									</Level.Item>
-								</Level.Side>
+						<Section>
+							<Container fluid>
+								<Level renderAs="nav">
+									<Level.Side align="left">
+										<Level.Item>
+											<Heading
+												subtitle
+												size={4}
+												className="has-text-primary has-text-weight-bold"
+											>
+												Employee Totals: <em>This {this.state.month_year3}</em>
+											</Heading>
+										</Level.Item>
+									</Level.Side>
 
-								<Level.Side align="right">
-									<Switch
-										groupSize={this.state.groupSize_employee_total}
-										groupOptions={groupOptions_employee_total}
-										toggle={this.monthYearToggle_employee_total}
-									/>
-								</Level.Side>
-							</Level>
-							<hr />
-						</Container>
-					</Section>
+									<Level.Side align="right">
+										<Switch
+											groupSize={this.state.groupSize_employee_total}
+											groupOptions={groupOptions_employee_total}
+											toggle={this.monthYearToggle_employee_total}
+										/>
+									</Level.Side>
+								</Level>
+								<hr />
+							</Container>
+						</Section>
 
-					<Section>
-						<Container fluid>
-							<Tile kind="ancestor" className="has-averta-regular-font">
-								<Tile size={6} vertical>
-									<Tile className="is-tile-row">
+						<Section>
+							<Container fluid>
+								<Tile kind="ancestor" className="has-averta-regular-font">
+									<Tile size={6} vertical>
+										<Tile className="is-tile-row">
 
-										<div className="card-button" onClick={this.applicationGraphClick}>
-											<Card
-												subtitle={"subtitle is-2 has-subtitle-white"}
-												bodyClass={this.state.applicationGraphBodyCss}
-												cardData={this.state.bankApplication2}
-												monthYear={"Bank Application"}
-												footerClass={this.state.applicationGraphFooterCss}
-											/>
-										</div>
-										<div className="card-button" onClick={this.userGraphClick}>
-											<Card
-												subtitle={"subtitle is-2 has-subtitle-white"}
-												bodyClass={this.state.userGraphBodyCss}
-												cardData={this.state.activeUser2}
-												monthYear={"Active Users (Shares)"}
-												footerClass={this.state.userGraphFooterCss}
-											/>
-										</div>
-										<div className="card-button" onClick={this.incomeGraphClick}>
-											<Card
-												subtitle={"subtitle is-2 has-subtitle-white"}
-												bodyClass={this.state.incomeGraphBodyCss}
-												cardData={this.state.socialBoostIncome2}
-												monthYear={"MeedShare Income"}
-												footerClass={this.state.incomeGraphFooterCss}
-											/>
-										</div>
+											<div className="card-button" onClick={this.applicationGraphClick}>
+												<Card
+													subtitle={"subtitle is-2 has-subtitle-white"}
+													bodyClass={this.state.applicationGraphBodyCss}
+													cardData={this.state.bankApplication2}
+													monthYear={"Bank Application"}
+													footerClass={this.state.applicationGraphFooterCss}
+												/>
+											</div>
+											<div className="card-button" onClick={this.userGraphClick}>
+												<Card
+													subtitle={"subtitle is-2 has-subtitle-white"}
+													bodyClass={this.state.userGraphBodyCss}
+													cardData={this.state.activeUser2}
+													monthYear={"Active Users (Shares)"}
+													footerClass={this.state.userGraphFooterCss}
+												/>
+											</div>
+											<div className="card-button" onClick={this.incomeGraphClick}>
+												<Card
+													subtitle={"subtitle is-2 has-subtitle-white"}
+													bodyClass={this.state.incomeGraphBodyCss}
+													cardData={this.state.socialBoostIncome2}
+													monthYear={"MeedShare Income"}
+													footerClass={this.state.incomeGraphFooterCss}
+												/>
+											</div>
+										</Tile>
 									</Tile>
 								</Tile>
-							</Tile>
-						</Container>
-					</Section>
+							</Container>
+						</Section>
 
-					<Section>
-						<Container fluid>
-							<div className="graphArea">
-								{
-									this.state.graphType === "line" ?
-										<Line
-											series={this.state.series}
-											legend={this.state.legend}
-											graphColor={this.state.graphColor}
-											graphType={this.state.graphType}
-										/>
-										:
-										<Bar
-											series={this.state.series}
-											graphColor={this.state.graphColor}
-											graphType={this.state.graphType}
-										/>
-								}
-							</div>
-						</Container>
-					</Section>
-				</React.Fragment>
-			</div>
+						<Section>
+							<Container fluid>
+								<div className="graphArea">
+									{
+										this.state.graphType === "line" ?
+											<Line
+												series={this.state.series}
+												legend={this.state.legend}
+												graphColor={this.state.graphColor}
+												graphType={this.state.graphType}
+											/>
+											:
+											<Bar
+												series={this.state.series}
+												graphColor={this.state.graphColor}
+												graphType={this.state.graphType}
+											/>
+									}
+								</div>
+							</Container>
+						</Section>
+					</React.Fragment>
+				</div>
+			</ErrorBoundary>
 		);
 	}
 }

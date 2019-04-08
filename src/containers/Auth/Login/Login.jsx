@@ -13,11 +13,12 @@ import { Link } from "react-router-dom";
 import { setIsLogin, set } from "../../../common/GlobalVars";
 import { login } from "../../../apis/meed";
 import uuidv4 from "uuid/v4";
+import ErrorBoundary from "./../../../hoc/ErrorBoundary"
 
 class Login extends React.Component {
 	state = {
 		email: "testc1@yopmail.com",
-		password: "o^V71Kai",
+		password: "u!T7!qLg",
 		modalState: false,
 		modalTitle: "",
 		modalMessage: "",
@@ -63,18 +64,26 @@ class Login extends React.Component {
 		};
 		set("deviceId", await uuidv4());
 		const data = await login(params);
-		if (data.success) {
-			const { user } = data;
-			set("userId", user);
-			setIsLogin(true);
-			this.props.history.push("/");
+		if (data) {
+			if (data.success) {
+				const { user } = data;
+				set("userId", user);
+				setIsLogin(true);
+				this.props.history.push("/");
+			} else {
+				this.setState({
+					modalTitle: "Error",
+					modalMessage: data.error[0].message
+				});
+				this.toggleModal();
+				this.setState({ loader: " " });
+			}
 		} else {
 			this.setState({
 				modalTitle: "Error",
-				modalMessage: data.error[0].message
+				modalMessage: "Internal Error Occured!!"
 			});
 			this.toggleModal();
-			this.setState({ loader: " " });
 		}
 	};
 
@@ -84,88 +93,90 @@ class Login extends React.Component {
 		const { email, password } = this.state;
 
 		return (
-			<div className="authBody">
-				{this.state.loader}
-				<Section >
-					<Container fluid className="auth_container">
-						<Logo meed_logo={"meed-logo1"} />
-					</Container>
-				</Section>
+			<ErrorBoundary>
+				<div className="authBody">
+					{this.state.loader}
+					<Section >
+						<Container fluid className="auth_container">
+							<Logo meed_logo={"meed-logo1"} />
+						</Container>
+					</Section>
 
-				<form onSubmit={this.handleSubmit}>
-					<div>
-						<Section>
-							<Container fluid>
-								<Columns>
-									<Columns.Column>
-										<p className="authHeader">
-											Welcome to the Meed Corporate Member Dashboard
+					<form onSubmit={this.handleSubmit}>
+						<div>
+							<Section>
+								<Container fluid>
+									<Columns>
+										<Columns.Column>
+											<p className="authHeader">
+												Welcome to the Meed Corporate Member Dashboard
                     </p>
-										<Separator />
-									</Columns.Column>
-								</Columns>
-								<Columns>
-									<Columns.Column size={6} offset={3}>
-										<Columns>
-											<Columns.Column size={6}>
-												<Field>
-													<Control>
-														<Input
-															name="email"
-															change={this.handleChange}
-															data={email}
-															type="email"
-															text="Email"
-														/>
-													</Control>
-												</Field>
-											</Columns.Column>
-											<Columns.Column size={6}>
-												<Field>
-													<Control>
-														<Input
-															name="password"
-															change={this.handleChange}
-															data={password}
-															type="password"
-															text="Password"
-														/>
-													</Control>
-												</Field>
-											</Columns.Column>
-										</Columns>
+											<Separator />
+										</Columns.Column>
+									</Columns>
+									<Columns>
+										<Columns.Column size={6} offset={3}>
+											<Columns>
+												<Columns.Column size={6}>
+													<Field>
+														<Control>
+															<Input
+																name="email"
+																change={this.handleChange}
+																data={email}
+																type="email"
+																text="Email"
+															/>
+														</Control>
+													</Field>
+												</Columns.Column>
+												<Columns.Column size={6}>
+													<Field>
+														<Control>
+															<Input
+																name="password"
+																change={this.handleChange}
+																data={password}
+																type="password"
+																text="Password"
+															/>
+														</Control>
+													</Field>
+												</Columns.Column>
+											</Columns>
 
-										<Columns>
-											<Columns.Column size={9}>
-												<div className="forgotPassword">
-													Forgot <Link to="/forgot-password">Password</Link> ?
+											<Columns>
+												<Columns.Column size={9}>
+													<div className="forgotPassword">
+														Forgot <Link to="/forgot-password">Password</Link> ?
                         </div>
-											</Columns.Column>
-											<Columns.Column size={3} >
-												<Button className="authBtn">LOGIN</Button>
-											</Columns.Column>
-										</Columns>
-									</Columns.Column>
-								</Columns>
-								<Columns>
-									<Columns.Column>
-										<p className="joinNow">
-											Don't have a Corporate Account? <Link to="/register">JOIN NOW!</Link>
-										</p>
-									</Columns.Column>
-								</Columns>
-							</Container>
-						</Section>
-					</div>
-				</form>
-				<Modal
-					closeModal={this.toggleModal}
-					modalState={this.state.modalState}
-					title={this.state.modalTitle}
-				>
-					<p>{this.state.modalMessage}</p>
-				</Modal>
-			</div>
+												</Columns.Column>
+												<Columns.Column size={3} >
+													<Button className="authBtn">LOGIN</Button>
+												</Columns.Column>
+											</Columns>
+										</Columns.Column>
+									</Columns>
+									<Columns>
+										<Columns.Column>
+											<p className="joinNow">
+												Don't have a Corporate Account? <Link to="/register">JOIN NOW!</Link>
+											</p>
+										</Columns.Column>
+									</Columns>
+								</Container>
+							</Section>
+						</div>
+					</form>
+					<Modal
+						closeModal={this.toggleModal}
+						modalState={this.state.modalState}
+						title={this.state.modalTitle}
+					>
+						<p>{this.state.modalMessage}</p>
+					</Modal>
+				</div>
+			</ErrorBoundary>
 		);
 	}
 }

@@ -15,26 +15,29 @@ export const meedAPI = () =>
 		withCredentials: true
 	});
 
-export const authGaurd = stateCode => {
+export const authGaurd = (stateCode, body) => {
 	if (stateCode === 401 || stateCode === 403) {
 		clearStorage();
 		history.push("/login");
-		return;
+		return body;
 	}
 	return stateCode;
 };
+export const internalError = () => {
+	clearStorage();
+	history.push("/login");
+	return;
+}
 
 export const post = async (params, url) => {
 	try {
 		const response = await meedAPI().post(url, params);
-		if (response) {
-			authGaurd(response.status);
-			return response.data;
-		} else {
-			console.log('error occured');
-		}
+		authGaurd(response.status);
+		return response.data;
 	} catch (err) {
-		return authGaurd(err.response.status);
+		if (!err.response)
+			return internalError();
+		return authGaurd(err.response.status,err.response.data);
 	}
 };
 
@@ -44,7 +47,9 @@ export const get = async (params, url) => {
 		authGaurd(response.status);
 		return response.data;
 	} catch (err) {
-		return authGaurd(err.response.status);
+		if (!err.response)
+			return internalError();
+		return authGaurd(err.response.status,err.response.data);
 	}
 };
 
