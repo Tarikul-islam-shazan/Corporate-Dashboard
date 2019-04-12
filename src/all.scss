@@ -1,9 +1,5 @@
 // Set your brand colors
 @import "_variables.sass";
-
-
-
-
 // @charset "utf-8";
 
 // Import a Google Font
@@ -30,9 +26,10 @@
 // Meed variables
 $regular-padding: 15px;
 
+
 .meed-logo {
-  width: 118px;
-  height: 70px;
+  width: 98px;
+  height: 49px;
   fill: $white;
   padding: 0px;
   &:focus{
@@ -40,7 +37,7 @@ $regular-padding: 15px;
   }
 }
 .navbar-item img {
-  max-height:3.5rem !important; 
+  max-height:3.5rem !important;
 }
 
 // Custom styles
@@ -76,7 +73,7 @@ $regular-padding: 15px;
 }
 
 .is-tile-row {
-  margin-bottom: 3.125rem;
+  margin-bottom: 1.2rem;
 }
 
 .has-tile-text-centered {
@@ -101,6 +98,7 @@ $regular-padding: 15px;
   &.is-display {
     font-size: 4rem;
   }
+  margin-bottom: 5px !important;
 }
 
 .is-extra-large {
