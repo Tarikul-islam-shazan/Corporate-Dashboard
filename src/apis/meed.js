@@ -2,8 +2,7 @@ import axios from "axios";
 import history from "../history";
 import { get as getFromLocalStorage, clearStorage, getUserId } from "../common/GlobalVars"
 
-//const BASE_URL = "http://meed-tfqa.meed.net/meed/api/v1.0";
-const BASE_URL = "http://172.16.228.162:6060/meed/api/v1.0";
+const BASE_URL = process.env.REACT_APP_base_url;
 
 export const meedAPI = () =>
 	axios.create({
@@ -37,7 +36,7 @@ export const post = async (params, url) => {
 	} catch (err) {
 		if (!err.response)
 			return internalError();
-		return authGaurd(err.response.status,err.response.data);
+		return authGaurd(err.response.status, err.response.data);
 	}
 };
 
@@ -49,7 +48,7 @@ export const get = async (params, url) => {
 	} catch (err) {
 		if (!err.response)
 			return internalError();
-		return authGaurd(err.response.status,err.response.data);
+		return authGaurd(err.response.status, err.response.data);
 	}
 };
 
