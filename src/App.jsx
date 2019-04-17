@@ -11,7 +11,7 @@ import history from "./history";
 import Register from "./containers/Auth/Register/Register";
 
 class App extends Component {
-	componentDidMount() {
+	componentWillMount() {
 		if (getIsLogin() === "true") {
 			history.push("/");
 		} else {

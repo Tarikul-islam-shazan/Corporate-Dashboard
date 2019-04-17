@@ -17,8 +17,8 @@ import ErrorBoundary from "./../../../hoc/ErrorBoundary"
 
 class Login extends React.Component {
 	state = {
-		email: "testc1@yopmail.com",
-		password: "u!T7!qLg",
+		email: "",
+		password: "",
 		modalState: false,
 		modalTitle: "",
 		modalMessage: "",
@@ -46,7 +46,7 @@ class Login extends React.Component {
 			try {
 				this.login(this.state);
 			} catch (err) {
-				console.log(err);
+				//console.log(err);
 			}
 		} else {
 			this.setState({

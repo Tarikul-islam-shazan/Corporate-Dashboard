@@ -153,7 +153,7 @@ class Dashboard extends React.Component {
 				});
 				this.setState({ loader: "" });
 			} else {
-				console.log("somethis error occured");
+				
 			}
 		} catch (error) {
 			console.log(error);

@@ -13,7 +13,7 @@ import ErrorBoundary from "./../../../hoc/ErrorBoundary";
 
 class Forgotpassword extends React.Component {
 	state = {
-		email: "testc1@yopmail.com",
+		email: "",
 		modalState: false,
 		modalTitle: "",
 		modalMessage: "",
