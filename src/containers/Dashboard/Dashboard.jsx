@@ -50,8 +50,8 @@ class Dashboard extends React.Component {
 		socialBoostIncome2: 0,
 		totalShare: 0,
 		totalcShare: 0,
-		mShare: 0,
-		mCshare: 0,
+		share: 0,
+		corporateShare: 0,
 		loader: "",
 		groupSize: 1,
 		groupSize_employee_total: 1,
@@ -107,19 +107,19 @@ class Dashboard extends React.Component {
 						application: 0,
 						country: 0,
 						income: 0,
-						minviter: 0,
+						userInviter: 0,
 						month: 0,
 						requests: 0,
 						user: 0,
 						year: 0
 					}];
 				}
-				let inviter = filteData[0].minviter ? filteData[0].minviter : 0;
-				let tshare = filteData[0].tshare ? filteData[0].tshare : 0;
-				let tcshare = filteData[0].tcshare ? filteData[0].tcshare : 0;
+				let inviter = filteData[0].userInviter ? filteData[0].userInviter : 0;
+				let totalShare = filteData[0].totalShare ? filteData[0].totalShare : 0;
+				let totalCorporateShare = filteData[0].totalCorporateShare ? filteData[0].totalCorporateShare : 0;
 
-				let mshare = tshare !== 0 ? ((inviter * 100) / tshare) : 0;
-				let mcshare = tcshare !== 0 ? ((inviter * 100) / tcshare) : 0;
+				let userShare = totalShare !== 0 ? ((inviter * 100) / totalShare) : 0;
+				let userCorporateShare = totalCorporateShare !== 0 ? ((inviter * 100) / totalCorporateShare) : 0;
 
 				let applicationData = new Array(12).fill(null);
 				let userData = new Array(12).fill(null);
@@ -140,10 +140,10 @@ class Dashboard extends React.Component {
 					bankApplication: filteData[0].application ? filteData[0].application : 0,
 					activeUser: filteData[0].user ? filteData[0].user : 0,
 					socialBoostIncome: filteData[0].income ? filteData[0].income.toFixed(2) : 0,
-					totalShare: filteData[0].tshare ? filteData[0].tshare : 0,
-					totalcShare: filteData[0].tcshare ? filteData[0].tcshare : 0,
-					mShare: mshare.toFixed(2),
-					mCshare: mcshare.toFixed(2),
+					totalShare: filteData[0].totalShare ? filteData[0].totalShare : 0,
+					totalcShare: filteData[0].totalCorporateShare ? filteData[0].totalCorporateShare : 0,
+					share: userShare.toFixed(2),
+					corporateShare: userCorporateShare.toFixed(2),
 					applicationGraphData: applicationData,
 					userGraphData: userData,
 					incomeGraphData: incomeData,
@@ -153,7 +153,7 @@ class Dashboard extends React.Component {
 				});
 				this.setState({ loader: "" });
 			} else {
-				
+
 			}
 		} catch (error) {
 			console.log(error);
@@ -390,8 +390,8 @@ class Dashboard extends React.Component {
 		let totalUser = 0;
 		let totalIncome = 0;
 		let totalshare = 0;
-		let totalcshare = 0;
-		let totalInviter = 0;
+		let totalCorporateShare = 0;
+		let totalUserInviter = 0;
 		const hisData = JSON.parse(getDashboardData());
 		if (value === 1) {
 			let filteData = hisData.filter(data => {
@@ -409,7 +409,7 @@ class Dashboard extends React.Component {
 					application: 0,
 					country: 0,
 					income: 0,
-					minviter: 0,
+					userInviter: 0,
 					month: 0,
 					requests: 0,
 					user: 0,
@@ -417,21 +417,21 @@ class Dashboard extends React.Component {
 				}];
 			}
 
-			let inviter = filteData[0].minviter ? filteData[0].minviter : 0;
-			let tshare = filteData[0].tshare ? filteData[0].tshare : 0;
-			let tcshare = filteData[0].tcshare ? filteData[0].tcshare : 0;
+			let inviter = filteData[0].userInviter ? filteData[0].userInviter : 0;
+			let totalShare = filteData[0].totalShare ? filteData[0].totalShare : 0;
+			let totalCorporateShare = filteData[0].totalCorporateShare ? filteData[0].totalCorporateShare : 0;
 
-			let mshare = tshare !== 0 ? ((inviter * 100) / tshare) : 0;
-			let mcshare = tcshare !== 0 ? ((inviter * 100) / tcshare) : 0;
+			let userShare = totalShare !== 0 ? ((inviter * 100) / totalShare) : 0;
+			let userCorporateShare = totalCorporateShare !== 0 ? ((inviter * 100) / totalCorporateShare) : 0;
 
 			this.setState({
 				bankApplication: filteData[0].application ? filteData[0].application : 0,
 				activeUser: filteData[0].user ? filteData[0].user : 0,
 				socialBoostIncome: filteData[0].income ? filteData[0].income.toFixed(2) : 0,
-				totalShare: filteData[0].tshare ? filteData[0].tshare : 0,
-				totalcShare: filteData[0].tcshare ? filteData[0].tcshare : 0,
-				mShare: mshare.toFixed(2),
-				mCshare: mcshare.toFixed(2)
+				totalShare: filteData[0].totalShare ? filteData[0].totalShare : 0,
+				totalcShare: filteData[0].totalCorporateShare ? filteData[0].totalCorporateShare : 0,
+				share: userShare.toFixed(2),
+				corporateShare: userCorporateShare.toFixed(2)
 			});
 			this.setState({ loader: "", month_year: "Month" });
 		} else if (value === 2) {
@@ -448,7 +448,7 @@ class Dashboard extends React.Component {
 					application: 0,
 					country: 0,
 					income: 0,
-					minviter: 0,
+					userInviter: 0,
 					month: 0,
 					requests: 0,
 					user: 0,
@@ -459,14 +459,14 @@ class Dashboard extends React.Component {
 			for (let i = 0; i < filteData.length; i++) {
 				totalApplication += filteData[i].application ? filteData[i].application : 0;
 				totalUser += filteData[i].user ? filteData[i].user : 0;
-				totalshare += filteData[i].tshare ? filteData[i].tshare : 0;
-				totalcshare += filteData[i].tcshare ? filteData[i].tcshare : 0;
+				totalshare += filteData[i].totalShare ? filteData[i].totalShare : 0;
+				totalCorporateShare += filteData[i].totalCorporateShare ? filteData[i].totalCorporateShare : 0;
 				totalIncome += filteData[i].income ? filteData[i].income : 0;
-				totalInviter += filteData[i].minviter ? filteData[i].minviter : 0;
+				totalUserInviter += filteData[i].userInviter ? filteData[i].userInviter : 0;
 			}
 
-			let mshare = totalshare !== 0 ? ((totalInviter * 100) / totalshare) : 0;
-			let mcshare = totalcshare !== 0 ? ((totalInviter * 100) / totalcshare) : 0;
+			let userShare = totalshare !== 0 ? ((totalUserInviter * 100) / totalshare) : 0;
+			let userCorporateShare = totalCorporateShare !== 0 ? ((totalUserInviter * 100) / totalCorporateShare) : 0;
 
 
 			this.setState({
@@ -474,9 +474,9 @@ class Dashboard extends React.Component {
 				activeUser: totalUser,
 				socialBoostIncome: totalIncome.toFixed(2),
 				totalShare: totalshare,
-				totalcShare: totalcshare,
-				mShare: mshare.toFixed(2),
-				mCshare: mcshare.toFixed(2)
+				totalcShare: totalCorporateShare,
+				share: userShare.toFixed(2),
+				corporateShare: userCorporateShare.toFixed(2)
 			});
 			this.setState({ loader: "", month_year: "Year" });
 		}
@@ -509,7 +509,7 @@ class Dashboard extends React.Component {
 					application: 0,
 					country: 0,
 					income: 0,
-					minviter: 0,
+					userInviter: 0,
 					month: 0,
 					requests: 0,
 					user: 0,
@@ -555,7 +555,7 @@ class Dashboard extends React.Component {
 					application: 0,
 					country: 0,
 					income: 0,
-					minviter: 0,
+					userInviter: 0,
 					month: 0,
 					requests: 0,
 					user: 0,
@@ -697,7 +697,7 @@ class Dashboard extends React.Component {
 
 									<Tile kind="parent" vertical>
 										<RadialBar
-											share={this.state.mShare}
+											share={this.state.share}
 											allShare={this.state.totalShare}
 											name={"of all Shares"}
 											title={"Total Shares"}
@@ -707,7 +707,7 @@ class Dashboard extends React.Component {
 
 									<Tile kind="parent" vertical>
 										<RadialBar
-											share={this.state.mCshare}
+											share={this.state.corporateShare}
 											allShare={this.state.totalcShare}
 											name={"of all Corporate Shares"}
 											title={"Total Corporate Shares"}
