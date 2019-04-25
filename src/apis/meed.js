@@ -54,14 +54,14 @@ export const get = async (params, url) => {
 
 export const getDeviceID = () => getFromLocalStorage("deviceId");
 
-export const login = async params => await post(params, "/corporate/login");
+export const login = async params => await post(params, "/login");
 
-export const signUp = async params => await post(params, "/corporate/signUp");
+export const signUp = async params => await post(params, "/signUp");
 
-export const logout = async () => await post({}, "/corporate/logout");
+export const logout = async params => await post(params, "/logout");
 
 export const dashBoard = async () => await get({}, "/dashboard?userId=" + getUserId());
 
-export const forgotPassword = async params => await post(params, "/corporate/forgotPassword");
+export const forgotPassword = async params => await post(params, "/forgotPassword");
 
-export const echo = async params => await post(params, "/corporate/echo");
+export const echo = async params => await post(params, "/echo");

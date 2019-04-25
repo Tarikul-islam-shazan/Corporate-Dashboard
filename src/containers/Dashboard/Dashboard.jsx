@@ -11,7 +11,7 @@ import RadialBar from "../../components/Charts/RadialBar/RadialBar";
 import Bar from "../../components/Charts/Bar/Bar";
 import Line from "../../components/Charts/Line/Line";
 import Card from "../../components/Card/Card";
-import { clearStorage, setDashboardData, getDashboardData } from "../../common/GlobalVars";
+import { clearStorage, setDashboardData, getDashboardData,getUserId} from "../../common/GlobalVars";
 import { logout, dashBoard } from "../../apis/meed";
 import './Dashboard.scss';
 import ErrorBoundary from "./../../hoc/ErrorBoundary";
@@ -607,7 +607,7 @@ class Dashboard extends React.Component {
 	};
 
 	userLogout = async () => {
-		const data = await logout();
+		const data = await logout({"userId":getUserId()});
 		try {
 			if (data.success) {
 				clearStorage();

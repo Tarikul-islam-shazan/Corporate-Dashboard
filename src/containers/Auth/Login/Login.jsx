@@ -63,17 +63,17 @@ class Login extends React.Component {
 			password: password
 		};
 		set("deviceId", await uuidv4());
-		const data = await login(params);
-		if (data) {
-			if (data.success) {
-				const { user } = data;
+		const response = await login(params);
+		if (response) {
+			if (response.success) {
+				const { user } = response.data;
 				set("userId", user);
 				setIsLogin(true);
 				this.props.history.push("/");
 			} else {
 				this.setState({
 					modalTitle: "Error",
-					modalMessage: data.error[0].message
+					modalMessage: response.error[0].message
 				});
 				this.toggleModal();
 				this.setState({ loader: " " });
