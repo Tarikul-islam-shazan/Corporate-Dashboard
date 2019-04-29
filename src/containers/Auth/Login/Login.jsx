@@ -66,8 +66,10 @@ class Login extends React.Component {
 		const response = await login(params);
 		if (response) {
 			if (response.success) {
-				const { user } = response.data;
+				const { user,companyName,createdDate } = response.data;
 				set("userId", user);
+				set("companyName", companyName);
+				set("createdDate", createdDate);
 				setIsLogin(true);
 				this.props.history.push("/");
 			} else {

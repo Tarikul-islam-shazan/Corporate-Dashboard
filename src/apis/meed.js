@@ -20,7 +20,7 @@ export const authGaurd = (stateCode, body) => {
 		history.push("/login");
 		return body;
 	}
-	return stateCode;
+	return body;
 };
 export const internalError = () => {
 	clearStorage();

@@ -43,14 +43,12 @@ class Register extends React.Component {
 	handleSubmit = event => {
 		event.preventDefault();
 		if (this.isFormValid(this.state)) {
-			console.log("isFormValid");
 			try {
 				this.register(this.state);
 			} catch (err) {
 				console.log(err);
 			}
 		} else {
-			console.log("Not isFormValid");
 			this.setState({
 				modalTitle: "Error ",
 				modalMessage: "Information Invalid"
@@ -92,8 +90,7 @@ class Register extends React.Component {
 		email &&
 		companyName &&
 		password &&
-		repeatPassword &&
-		password === repeatPassword;
+		repeatPassword
 
 	render() {
 		const { email, password, companyName, repeatPassword } = this.state;

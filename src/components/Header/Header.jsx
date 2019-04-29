@@ -6,6 +6,7 @@ import Container from "react-bulma-components/lib/components/container";
 import Navbar from "react-bulma-components/lib/components/navbar";
 import Button from "react-bulma-components/lib/components/button";
 import './Header.scss';
+import { get } from "../../common/GlobalVars";
 
 import Logo from "../Logo/Logo";
 
@@ -20,7 +21,11 @@ class Header extends React.Component {
 	};
 
 	render() {
-		// const open = this.state.open;
+		let date = new Date(get('createdDate'));
+		const monthNames = ["January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December"
+		];
+
 		return (
 			<React.Fragment>
 				<Section className="has-background-primary header_section-padding">
@@ -58,15 +63,15 @@ class Header extends React.Component {
 				<Section className="has-background-light header_section-padding2">
 					<Container fluid className="header_container">
 						<Heading size={2} className="has-text-primary">
-							Joe Cooper Auto Group
-            </Heading>
+							{get('companyName')}
+						</Heading>
 						<Heading
 							subtitle
 							size={6}
 							className="has-text-primary has-averta-bold-font"
 						>
-							Program active Since March 25, 2019
-            </Heading>
+							Program active Since {monthNames[date.getMonth()]} {date.getDate()}, {date.getFullYear()}
+						</Heading>
 					</Container>
 				</Section>
 			</React.Fragment>

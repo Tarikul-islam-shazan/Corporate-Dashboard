@@ -21,10 +21,11 @@
   },
   "scripts": {
     "start": "env-path -p src/config/env/.env.development NODE_PATH=./src react-scripts start",
-    "uat": "env-path -p src/config/env/.env.production.local NODE_PATH=./src react-scripts build",
-    "qa": "env-path -p src/config/env/.env.development.local NODE_PATH=./src react-scripts build",
+    "uat": "env-path -p src/config/env/.env.uat NODE_PATH=./src react-scripts build",
+    "qa": "env-path -p src/config/env/.env.qa NODE_PATH=./src react-scripts build",
     "build": "env-path -p src/config/env/.env.production NODE_PATH=./src react-scripts build",
-    "prod": "env-path -p src/config/env/.env.production NODE_PATH=./src react-scripts build",
+    "production": "env-path -p src/config/env/.env.production NODE_PATH=./src react-scripts build",
+    "demo": "env-path -p src/config/env/.env.demo NODE_PATH=./src react-scripts build",
     "test": "env-path -p src/config/env/.env.test NODE_PATH=./src react-scripts test",
     "eject": "NODE_PATH=./src react-scripts eject"
   },
