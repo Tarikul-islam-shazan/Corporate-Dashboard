@@ -24,6 +24,7 @@
     "uat": "env-path -p src/config/env/.env.production.local NODE_PATH=./src react-scripts build",
     "qa": "env-path -p src/config/env/.env.development.local NODE_PATH=./src react-scripts build",
     "build": "env-path -p src/config/env/.env.production NODE_PATH=./src react-scripts build",
+    "prod": "env-path -p src/config/env/.env.production NODE_PATH=./src react-scripts build",
     "test": "env-path -p src/config/env/.env.test NODE_PATH=./src react-scripts test",
     "eject": "NODE_PATH=./src react-scripts eject"
   },
