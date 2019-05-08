@@ -4,9 +4,11 @@ import Button from "react-bulma-components/lib/components/button";
 import Columns from "react-bulma-components/lib/components/columns";
 import Container from "react-bulma-components/lib/components/container";
 import Section from "react-bulma-components/lib/components/section";
+import Modal from "../../../components/Modal/Modal";
 import Separator from "../../../components/Separator/Seperator";
 import Input from "../../../components/Input/Input";
 import Logo from "../../../components/Logo/Logo";
+import SuccessMessage from "../../../components/Modal/SuccessModalMessage";
 import "./ForgotPassword.scss";
 import { forgotPassword } from "../../../apis/meed";
 import ErrorBoundary from "./../../../hoc/ErrorBoundary";
@@ -55,13 +57,16 @@ class Forgotpassword extends React.Component {
 			email: email,
 		};
 		const data = await forgotPassword(params);
+
 		if (data) {
 			if (data.success) {
-				this.props.history.push("/login");
+				this.setState({ modalTitle: 'Success!', modalMessage: <SuccessMessage message="An email has been sent to the User with a new Password." /> })
+				this.toggleModal();
+				this.setState({ loader: " " });
 			} else {
 				this.setState({ modalTitle: 'Error', modalMessage: data.error[0].message })
 				this.toggleModal();
-				this.setState({ loader: " " })
+				this.setState({ loader: " " });
 			}
 		} else {
 			this.setState({
@@ -77,7 +82,6 @@ class Forgotpassword extends React.Component {
 
 	render() {
 		const { email } = this.state;
-
 		return (
 			<ErrorBoundary>
 				<div className="authBody">
@@ -128,6 +132,13 @@ class Forgotpassword extends React.Component {
 							</Section>
 						</div>
 					</form>
+					<Modal
+						closeModal={this.toggleModal}
+						modalState={this.state.modalState}
+						title={this.state.modalTitle}
+					>
+						<p>{this.state.modalMessage}</p>
+					</Modal>
 				</div>
 			</ErrorBoundary>
 		);

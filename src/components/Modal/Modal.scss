@@ -1,12 +1,21 @@
-.modalBody{
-    padding: px;
+.modalBody {
+  padding: px;
 }
-.modalBodyHeader{
-    margin-bottom: 10px;
-    font-size: 20px;
-    font-weight: bold;
+.modalBodyHeader {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.modalMainBody{
-    margin-bottom: 30px;
+.modalMainBody {
+  margin-bottom: 30px;
+}
+
+.successModalBtn {
+  //color: #2DE2A2;
+  float: right;
+  margin-top: 30px;
+  background-color: #2de2a2;
+  border: none;
+  width: 60px;
 }

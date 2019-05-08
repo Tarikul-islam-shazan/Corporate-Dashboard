@@ -40,7 +40,6 @@ class Line extends Component {
 					show: true,
 					showAlways: true,
 					tickAmount: 6,
-					min: 10,
 					forceNiceScale: false,
 					floating: false,
 					decimalsInFloat: 2,
