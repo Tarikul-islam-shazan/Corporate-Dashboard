@@ -9,12 +9,12 @@ import Separator from "../../../components/Separator/Seperator";
 import Input from "../../../components/Input/Input";
 import Logo from "../../../components/Logo/Logo";
 import SuccessMessage from "../../../components/Modal/SuccessModalMessage";
-import "./Register.scss";
+import "./registration.scss";
 import { Link } from "react-router-dom";
 import { signUp } from "../../../apis/meed";
-import ErrorBoundary from "./../../../hoc/ErrorBoundary";
+import ErrorBoundary from "../../../hoc/errorBoundary";
 
-class Register extends React.Component {
+class Registration extends React.Component {
   state = {
     email: "",
     password: "",
@@ -23,7 +23,8 @@ class Register extends React.Component {
     modalState: false,
     modalTitle: "",
     modalMessage: "",
-    loader: ""
+    loader: "",
+    backdrop: true,
   };
 
   /****** Modal work ******/
@@ -37,11 +38,11 @@ class Register extends React.Component {
   }
   /****** Modal work End ******/
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.isFormValid(this.state)) {
       try {
@@ -52,7 +53,7 @@ class Register extends React.Component {
     } else {
       this.setState({
         modalTitle: "Error ",
-        modalMessage: "Information Invalid"
+        modalMessage: "Information Invalid",
       });
       this.toggleModal();
     }
@@ -63,23 +64,24 @@ class Register extends React.Component {
       email: email,
       companyName: companyName,
       password: password,
-      repeatPassword: repeatPassword
+      repeatPassword: repeatPassword,
     };
     const data = await signUp(params);
     if (data) {
       if (data.success) {
         this.setState({
-          modalTitle: "Congratulations!",
+          modalTitle: "Info!",
+          backdrop: false,
           modalMessage: (
-            <SuccessMessage message="You have successfully complete the registration." />
-          )
+            <SuccessMessage message="An email has been sent to the User with a verification code" link="/verification" payload={data.data} />
+          ),
         });
         this.toggleModal();
         this.setState({ loader: " " });
       } else {
         this.setState({
           modalTitle: "Error",
-          modalMessage: data.error[0].message
+          modalMessage: data.error[0].message,
         });
         this.toggleModal();
         this.setState({ loader: " " });
@@ -87,14 +89,13 @@ class Register extends React.Component {
     } else {
       this.setState({
         modalTitle: "Error",
-        modalMessage: "Internal Error Occured!!"
+        modalMessage: "Internal Error Occured!!",
       });
       this.toggleModal();
     }
   };
 
-  isFormValid = ({ email, companyName, password, repeatPassword }) =>
-    email.trim() && companyName.trim() && password.trim() && repeatPassword.trim();
+  isFormValid = ({ email, companyName, password, repeatPassword }) => email.trim() && companyName.trim() && password.trim() && repeatPassword.trim();
 
   render() {
     const { email, password, companyName, repeatPassword } = this.state;
@@ -126,26 +127,14 @@ class Register extends React.Component {
                         <Columns.Column size={6}>
                           <Field>
                             <Control>
-                              <Input
-                                name="email"
-                                change={this.handleChange}
-                                data={email}
-                                type="email"
-                                text="EMAIL"
-                              />
+                              <Input name="email" change={this.handleChange} data={email} type="email" text="EMAIL" />
                             </Control>
                           </Field>
                         </Columns.Column>
                         <Columns.Column size={6}>
                           <Field>
                             <Control>
-                              <Input
-                                name="companyName"
-                                change={this.handleChange}
-                                data={companyName}
-                                type="text"
-                                text="COMPANY NAME"
-                              />
+                              <Input name="companyName" change={this.handleChange} data={companyName} type="text" text="COMPANY NAME" />
                             </Control>
                           </Field>
                         </Columns.Column>
@@ -155,26 +144,14 @@ class Register extends React.Component {
                         <Columns.Column size={6}>
                           <Field>
                             <Control>
-                              <Input
-                                name="password"
-                                change={this.handleChange}
-                                data={password}
-                                type="password"
-                                text="Password"
-                              />
+                              <Input name="password" change={this.handleChange} data={password} type="password" text="Password" />
                             </Control>
                           </Field>
                         </Columns.Column>
                         <Columns.Column size={6}>
                           <Field>
                             <Control>
-                              <Input
-                                name="repeatPassword"
-                                change={this.handleChange}
-                                data={repeatPassword}
-                                type="password"
-                                text="REPEAT PASSWORD"
-                              />
+                              <Input name="repeatPassword" change={this.handleChange} data={repeatPassword} type="password" text="REPEAT PASSWORD" />
                             </Control>
                           </Field>
                         </Columns.Column>
@@ -190,8 +167,7 @@ class Register extends React.Component {
                   <Columns>
                     <Columns.Column>
                       <p className="joinNow">
-                        Already have a Corporate Account?{" "}
-                        <Link to="/login">LOGIN</Link>
+                        Already have a Corporate Account? <Link to="/login">LOGIN</Link>
                       </p>
                     </Columns.Column>
                   </Columns>
@@ -199,11 +175,7 @@ class Register extends React.Component {
               </Section>
             </div>
           </form>
-          <Modal
-            closeModal={this.toggleModal}
-            modalState={this.state.modalState}
-            title={this.state.modalTitle}
-          >
+          <Modal closeModal={this.toggleModal} modalState={this.state.modalState} title={this.state.modalTitle} backdrop={this.state.backdrop}>
             <p>{this.state.modalMessage}</p>
           </Modal>
         </div>
@@ -212,4 +184,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default Registration;
