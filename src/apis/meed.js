@@ -1,10 +1,6 @@
-import axios from "axios";
-import history from "../history";
-import {
-  get as getFromLocalStorage,
-  clearStorage,
-  getUserId
-} from "../common/GlobalVars";
+import axios from 'axios';
+import history from '../history';
+import { get as getFromLocalStorage, clearStorage, getUserId } from '../common/GlobalVars';
 
 const BASE_URL = process.env.REACT_APP_base_url;
 
@@ -12,23 +8,23 @@ export const meedAPI = () =>
   axios.create({
     baseURL: BASE_URL,
     headers: {
-      "Content-Type": "application/json",
-      deviceId: getDeviceID()
+      'Content-Type': 'application/json',
+      deviceId: getDeviceID(),
     },
-    withCredentials: true
+    withCredentials: true,
   });
 
 export const authGaurd = (stateCode, body) => {
   if (stateCode === 401 || stateCode === 403) {
     clearStorage();
-    history.push("/login");
+    history.push('/login');
     return body;
   }
   if (stateCode !== 500) return body;
 };
 export const internalError = () => {
   clearStorage();
-  history.push("/login");
+  history.push('/login');
   return;
 };
 
@@ -54,18 +50,18 @@ export const get = async (params, url) => {
   }
 };
 
-export const getDeviceID = () => getFromLocalStorage("deviceId");
+export const getDeviceID = () => getFromLocalStorage('deviceId');
 
-export const login = async params => await post(params, "/login");
+export const login = async (params) => await post(params, '/login');
 
-export const signUp = async params => await post(params, "/signUp");
+export const signUp = async (params) => await post(params, '/signUp');
 
-export const logout = async params => await post(params, "/logout");
+export const logout = async (params) => await post(params, '/logout');
 
-export const dashBoard = async () =>
-  await get({}, "/dashboard?userId=" + getUserId());
+export const dashBoard = async () => await get({}, '/dashboard?userId=' + getUserId());
 
-export const forgotPassword = async params =>
-  await post(params, "/forgotPassword");
+export const forgotPassword = async (params) => await post(params, '/forgotPassword');
 
-export const echo = async params => await post(params, "/echo");
+export const verification = async (params) => await post(params, '/verification');
+
+export const echo = async (params) => await post(params, '/echo');

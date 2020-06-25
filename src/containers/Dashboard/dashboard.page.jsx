@@ -1,29 +1,29 @@
-import React from "react";
-import Heading from "react-bulma-components/lib/components/heading";
-import Section from "react-bulma-components/lib/components/section";
-import Container from "react-bulma-components/lib/components/container";
-import Level from "react-bulma-components/lib/components/level";
-import Tile from "react-bulma-components/lib/components/tile";
-import Dropdown from "react-bulma-components/lib/components/dropdown";
-import MeedLoader from "../../components/MeedLoader/MeedLoader";
-import Header from "../../components/Header/Header";
-import Bar from "../../components/Charts/Bar/Bar";
-import Line from "../../components/Charts/Line/Line";
-import Card from "../../components/Card/Card";
-import { clearStorage, setDashboardData, getDashboardData, getUserId } from "../../common/GlobalVars";
-import { logout, dashBoard } from "../../apis/meed";
-import "./dashboard.scss";
-import ErrorBoundary from "../../hoc/ErrorBoundary";
-import { Columns } from "react-bulma-components";
-import moment from "moment";
+import React from 'react';
+import Heading from 'react-bulma-components/lib/components/heading';
+import Section from 'react-bulma-components/lib/components/section';
+import Container from 'react-bulma-components/lib/components/container';
+import Level from 'react-bulma-components/lib/components/level';
+import Tile from 'react-bulma-components/lib/components/tile';
+import Dropdown from 'react-bulma-components/lib/components/dropdown';
+import MeedLoader from '../../components/MeedLoader/MeedLoader';
+import Header from '../../components/Header/Header';
+import Bar from '../../components/Charts/Bar/Bar';
+import Line from '../../components/Charts/Line/Line';
+import Card from '../../components/Card/Card';
+import { clearStorage, setDashboardData, getDashboardData, getUserId } from '../../common/GlobalVars';
+import { logout, dashBoard } from '../../apis/meed';
+import './dashboard.scss';
+import ErrorBoundary from '../../hoc/errorBoundary';
+import { Columns } from 'react-bulma-components';
+import moment from 'moment';
 
 class Dashboard extends React.Component {
   state = {
     dropdownOptions: [
-      { text: "Rolling 12 Months", value: 1 },
-      { text: "2019", value: 2019 },
+      { text: 'Rolling 12 Months', value: 1 },
+      { text: '2019', value: 2019 },
     ],
-    selectedOption: { text: "Rolling 12 Months", value: 1 },
+    selectedOption: { text: 'Rolling 12 Months', value: 1 },
     bankApplication: 0,
     bankApplication2: 0,
     activeUser: 0,
@@ -34,25 +34,25 @@ class Dashboard extends React.Component {
     totalcShare: 0,
     share: 0,
     corporateShare: 0,
-    loader: "",
+    loader: '',
     groupSize_employee_total: 1,
-    month_year: "Month",
-    month_year3: "Month",
+    month_year: 'Month',
+    month_year3: 'Month',
     applicationGraphData: [],
     userGraphData: [],
     incomeGraphData: [],
     applicationGraph: false,
     userGraph: false,
     incomeGraph: false,
-    applicationGraphBodyCss: "has-card-opacity has-background-salmon has-rounded-top-corners has-font-white",
-    userGraphBodyCss: "has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white",
-    incomeGraphBodyCss: "has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white",
-    applicationGraphFooterCss: "has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box",
-    userGraphFooterCss: "has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box",
-    incomeGraphFooterCss: "has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box",
-    graphColor: ["#FF925D"],
-    series: [{ name: " ", data: [] }],
-    graphType: "bar",
+    applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+    userGraphBodyCss: 'has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
+    incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+    applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+    userGraphFooterCss: 'has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+    incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
+    graphColor: ['#FF925D'],
+    series: [{ name: ' ', data: [] }],
+    graphType: 'bar',
     legend: true,
   };
 
@@ -73,8 +73,8 @@ class Dashboard extends React.Component {
         const hisData = JSON.parse(getDashboardData());
 
         let filteData = hisData.filter((data) => {
-          if (data.year === new Date().getFullYear() && data.month === new Date().getMonth() + 1 && data.country === "USA") return true;
-          return "";
+          if (data.year === new Date().getFullYear() && data.month === new Date().getMonth() + 1 && data.country === 'USA') return true;
+          return '';
         });
         if (!filteData.length) {
           filteData = [
@@ -126,7 +126,7 @@ class Dashboard extends React.Component {
           activeUser2: filteData[0].user ? filteData[0].user : 0,
           socialBoostIncome2: filteData[0].income ? filteData[0].income.toFixed(2) : 0,
         });
-        this.setState({ loader: "" });
+        this.setState({ loader: '' });
       } else {
       }
     } catch (error) {
@@ -139,11 +139,11 @@ class Dashboard extends React.Component {
       this.setState({
         series: [
           {
-            name: "New Users",
+            name: 'New Users',
             data: this.state.applicationGraphData,
           },
           {
-            name: "Active User",
+            name: 'Active User',
             data: this.state.userGraphData,
           },
         ],
@@ -152,11 +152,11 @@ class Dashboard extends React.Component {
       await this.setState({
         series: [
           {
-            name: "New Users",
+            name: 'New Users',
             data: this.state.applicationGraphData,
           },
           {
-            name: "",
+            name: '',
             data: [],
           },
         ],
@@ -165,11 +165,11 @@ class Dashboard extends React.Component {
       this.setState({
         series: [
           {
-            name: "",
+            name: '',
             data: [],
           },
           {
-            name: "Active User",
+            name: 'Active User',
             data: this.state.userGraphData,
           },
         ],
@@ -178,7 +178,7 @@ class Dashboard extends React.Component {
       this.setState({
         series: [
           {
-            name: "MeedShare Income",
+            name: 'MeedShare Income',
             data: this.state.incomeGraphData,
           },
         ],
@@ -187,7 +187,7 @@ class Dashboard extends React.Component {
       this.setState({
         series: [
           {
-            name: " ",
+            name: ' ',
             data: new Array(12).fill(null),
           },
         ],
@@ -200,83 +200,83 @@ class Dashboard extends React.Component {
       this.setState({
         series: [
           {
-            name: "New Users",
+            name: 'New Users',
             data: this.state.applicationGraphData,
           },
           {
-            name: "Active User",
+            name: 'Active User',
             data: this.state.userGraphData,
           },
         ],
-        graphType: "line",
+        graphType: 'line',
         legend: true,
-        graphColor: ["#FF925D", "#53C9FF"],
-        applicationGraphBodyCss: "has-background-salmon has-rounded-top-corners has-font-white",
-        applicationGraphFooterCss: "has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box",
-        userGraphBodyCss: "has-background-blue-light has-rounded-top-corners has-font-white",
-        userGraphFooterCss: "has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box",
+        graphColor: ['#FF925D', '#53C9FF'],
+        applicationGraphBodyCss: 'has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
       });
     } else if (this.state.applicationGraph) {
       this.setState({
         series: [
           {
-            name: "New Users",
+            name: 'New Users',
             data: this.state.applicationGraphData,
           },
           {
-            name: " ",
+            name: ' ',
             data: [],
           },
         ],
-        graphType: "line",
+        graphType: 'line',
         legend: true,
-        graphColor: ["#FF925D"],
-        applicationGraphBodyCss: "has-background-salmon has-rounded-top-corners has-font-white",
-        applicationGraphFooterCss: "has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box",
-        userGraphBodyCss: "has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white",
-        userGraphFooterCss: "has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box",
-        incomeGraphBodyCss: "has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white",
-        incomeGraphFooterCss: "has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box",
+        graphColor: ['#FF925D'],
+        applicationGraphBodyCss: 'has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
       });
     } else if (this.state.userGraph) {
       this.setState({
         series: [
           {
-            name: "",
+            name: '',
             data: [],
           },
           {
-            name: "Active User",
+            name: 'Active User',
             data: this.state.userGraphData,
           },
         ],
-        graphType: "line",
+        graphType: 'line',
         legend: true,
-        graphColor: ["#53C9FF"],
-        userGraphBodyCss: "has-background-blue-light has-rounded-top-corners has-font-white",
-        userGraphFooterCss: "has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box",
-        applicationGraphBodyCss: "has-card-opacity has-background-salmon has-rounded-top-corners has-font-white",
-        applicationGraphFooterCss: "has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box",
-        incomeGraphBodyCss: "has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white",
-        incomeGraphFooterCss: "has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box",
+        graphColor: ['#53C9FF'],
+        userGraphBodyCss: 'has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+        applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
       });
     } else {
       this.setState({
         series: [
           {
-            name: " ",
+            name: ' ',
             data: new Array(12).fill(null),
           },
         ],
-        graphType: "bar",
+        graphType: 'bar',
         legend: false,
-        graphColor: ["#53C9FF"],
-        applicationGraphBodyCss: "has-card-opacity has-background-salmon has-rounded-top-corners has-font-white",
-        applicationGraphFooterCss: "has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box",
-        userGraphBodyCss: "has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white",
-        userGraphFooterCss: "has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box",
-        incomeGraphBodyCss: "has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white",
-        incomeGraphFooterCss: "has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box",
+        graphColor: ['#53C9FF'],
+        applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
       });
     }
   };
@@ -286,38 +286,38 @@ class Dashboard extends React.Component {
       this.setState({
         series: [
           {
-            name: "MeedShare Income",
+            name: 'MeedShare Income',
             data: this.state.incomeGraphData,
           },
         ],
-        graphType: "bar",
+        graphType: 'bar',
         legend: true,
-        graphColor: ["#1DD090"],
-        applicationGraphBodyCss: "has-card-opacity has-background-salmon has-rounded-top-corners has-font-white",
-        applicationGraphFooterCss: "has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box",
-        userGraphBodyCss: "has-card-opacity has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white",
+        graphColor: ['#1DD090'],
+        applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-card-opacity has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
         userGraphFooterCss:
-          "has-card-opacity has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box",
-        incomeGraphBodyCss: "has-background-green-brighter has-rounded-top-corners has-font-white",
-        incomeGraphFooterCss: "has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box",
+          'has-card-opacity has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: 'has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: 'has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
       });
     } else {
       this.setState({
         series: [
           {
-            name: " ",
+            name: ' ',
             data: new Array(12).fill(null),
           },
         ],
-        graphType: "bar",
+        graphType: 'bar',
         legend: false,
-        graphColor: ["#1DD090"],
-        applicationGraphBodyCss: "has-card-opacity has-background-salmon has-rounded-top-corners has-font-white",
-        applicationGraphFooterCss: "has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box",
-        userGraphBodyCss: "has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white",
-        userGraphFooterCss: "has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box",
-        incomeGraphBodyCss: "has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white",
-        incomeGraphFooterCss: "has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box",
+        graphColor: ['#1DD090'],
+        applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
+        applicationGraphFooterCss: 'has-card-opacity has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
+        userGraphBodyCss: 'has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
+        userGraphFooterCss: 'has-card-opacity has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box',
+        incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
+        incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
       });
     }
   };
@@ -356,7 +356,7 @@ class Dashboard extends React.Component {
       if (data.success) {
         clearStorage();
         this.setState({ loader: <MeedLoader /> });
-        this.props.history.push("/login");
+        this.props.history.push('/login');
       }
     } catch (error) {
       console.log(error);
@@ -378,10 +378,10 @@ class Dashboard extends React.Component {
             <Header userLogoutHandler={this.userLogoutHandler} />
             <Section>
               <Container fluid>
-                <Level renderAs="nav">
-                  <Level.Side align="left">
+                <Level renderAs='nav'>
+                  <Level.Side align='left'>
                     <Level.Item>
-                      <Heading subtitle size={4} className="has-text-primary has-text-weight-bold">
+                      <Heading subtitle size={4} className='has-text-primary has-text-weight-bold'>
                         MeedShare Summary
                       </Heading>
                     </Level.Item>
@@ -394,45 +394,45 @@ class Dashboard extends React.Component {
             <Section>
               <Container fluid>
                 <Columns>
-                  <Columns.Column size="half" offset="one-quarter">
-                    <Tile kind="ancestor" className="has-averta-regular-font">
+                  <Columns.Column size='half' offset='one-quarter'>
+                    <Tile kind='ancestor' className='has-averta-regular-font'>
                       <Tile size={12} vertical>
-                        <Tile className="is-tile-row">
+                        <Tile className='is-tile-row'>
                           <Card
-                            subtitle={"subtitle is-2"}
-                            bodyClass={"has-background-grey-qua has-rounded-top-corners"}
+                            subtitle={'subtitle is-2'}
+                            bodyClass={'has-background-grey-qua has-rounded-top-corners'}
                             cardData={this.state.bankApplication}
-                            cardText={"New Active Users"}
-                            monthYear={moment().format("MMMM")}
-                            footerClass={"has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box"}
+                            cardText={'New Active Users'}
+                            monthYear={moment().format('MMMM')}
+                            footerClass={'has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box'}
                           />
 
                           <Card
-                            subtitle={"subtitle is-2"}
-                            bodyClass={"has-background-grey-qua has-rounded-top-corners"}
+                            subtitle={'subtitle is-2'}
+                            bodyClass={'has-background-grey-qua has-rounded-top-corners'}
                             cardData={this.state.activeUser}
-                            cardText={"Active Users"}
-                            monthYear={"Now"}
-                            footerClass={"has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box"}
+                            cardText={'Active Users'}
+                            monthYear={'Now'}
+                            footerClass={'has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box'}
                           />
                         </Tile>
 
-                        <Tile className="is-tile-row">
+                        <Tile className='is-tile-row'>
                           <Card
-                            subtitle={"subtitle is-2"}
-                            bodyClass={"has-background-grey-qua has-rounded-top-corners"}
+                            subtitle={'subtitle is-2'}
+                            bodyClass={'has-background-grey-qua has-rounded-top-corners'}
                             cardData={this.state.socialBoostIncome}
-                            cardText={"MeedShare Income"}
-                            monthYear={moment().format("MMMM")}
-                            footerClass={"has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box"}
+                            cardText={'MeedShare Income'}
+                            monthYear={moment().format('MMMM')}
+                            footerClass={'has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box'}
                           />
                           <Card
-                            subtitle={"subtitle is-2"}
-                            bodyClass={"has-background-grey-qua has-rounded-top-corners"}
+                            subtitle={'subtitle is-2'}
+                            bodyClass={'has-background-grey-qua has-rounded-top-corners'}
                             cardData={this.state.socialBoostIncome}
-                            cardText={"MeedShare Income"}
-                            monthYear={"To Date"}
-                            footerClass={"has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box"}
+                            cardText={'MeedShare Income'}
+                            monthYear={'To Date'}
+                            footerClass={'has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box'}
                           />
                         </Tile>
                       </Tile>
@@ -444,22 +444,22 @@ class Dashboard extends React.Component {
 
             <Section>
               <Container fluid>
-                <Level renderAs="nav">
-                  <Level.Side align="left">
+                <Level renderAs='nav'>
+                  <Level.Side align='left'>
                     <Level.Item>
-                      <Heading subtitle size={4} className="has-text-primary has-text-weight-bold">
+                      <Heading subtitle size={4} className='has-text-primary has-text-weight-bold'>
                         Employee Totals: <em>{this.state.selectedOption.text}</em>
                       </Heading>
                     </Level.Item>
                   </Level.Side>
 
-                  <Level.Side align="right">
+                  <Level.Side align='right'>
                     <Level.Item>
                       <Dropdown
                         value={this.state.selectedOption.value}
                         up={false}
                         onChange={(e) => this.changeDropDown(e)}
-                        className="dropdown-wrapper"
+                        className='dropdown-wrapper'
                       >
                         {this.state.dropdownOptions.map((dropdownOption, i) => (
                           <Dropdown.Item key={i} value={dropdownOption.value}>
@@ -476,33 +476,33 @@ class Dashboard extends React.Component {
 
             <Section>
               <Container fluid>
-                <Tile kind="ancestor" className="has-averta-regular-font">
+                <Tile kind='ancestor' className='has-averta-regular-font'>
                   <Tile size={6} vertical>
-                    <Tile className="is-tile-row">
-                      <div className="card-button" onClick={this.applicationGraphClick}>
+                    <Tile className='is-tile-row'>
+                      <div className='card-button' onClick={this.applicationGraphClick}>
                         <Card
-                          subtitle={"subtitle is-2 has-subtitle-white"}
+                          subtitle={'subtitle is-2 has-subtitle-white'}
                           bodyClass={this.state.applicationGraphBodyCss}
                           cardData={this.state.bankApplication2}
-                          monthYear={"New Users"}
+                          monthYear={'New Users'}
                           footerClass={this.state.applicationGraphFooterCss}
                         />
                       </div>
-                      <div className="card-button" onClick={this.userGraphClick}>
+                      <div className='card-button' onClick={this.userGraphClick}>
                         <Card
-                          subtitle={"subtitle is-2 has-subtitle-white"}
+                          subtitle={'subtitle is-2 has-subtitle-white'}
                           bodyClass={this.state.userGraphBodyCss}
                           cardData={this.state.activeUser2}
-                          monthYear={"Active Users"}
+                          monthYear={'Active Users'}
                           footerClass={this.state.userGraphFooterCss}
                         />
                       </div>
-                      <div className="card-button" onClick={this.incomeGraphClick}>
+                      <div className='card-button' onClick={this.incomeGraphClick}>
                         <Card
-                          subtitle={"subtitle is-2 has-subtitle-white"}
+                          subtitle={'subtitle is-2 has-subtitle-white'}
                           bodyClass={this.state.incomeGraphBodyCss}
                           cardData={this.state.socialBoostIncome2}
-                          monthYear={"MeedShare Income"}
+                          monthYear={'MeedShare Income'}
                           footerClass={this.state.incomeGraphFooterCss}
                         />
                       </div>
@@ -514,8 +514,8 @@ class Dashboard extends React.Component {
 
             <Section>
               <Container fluid>
-                <div className="graphArea">
-                  {this.state.graphType === "line" ? (
+                <div className='graphArea'>
+                  {this.state.graphType === 'line' ? (
                     <Line series={this.state.series} legend={this.state.legend} graphColor={this.state.graphColor} graphType={this.state.graphType} />
                   ) : (
                     <Bar series={this.state.series} graphColor={this.state.graphColor} graphType={this.state.graphType} />

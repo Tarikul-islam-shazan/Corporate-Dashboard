@@ -1,25 +1,32 @@
-import React from "react";
-import { Field, Control } from "react-bulma-components/lib/components/form";
-import Button from "react-bulma-components/lib/components/button";
-import Columns from "react-bulma-components/lib/components/columns";
-import Container from "react-bulma-components/lib/components/container";
-import Section from "react-bulma-components/lib/components/section";
-import Modal from "../../../components/Modal/Modal";
-import Separator from "../../../components/Separator/Seperator";
-import Input from "../../../components/Input/Input";
-import Logo from "../../../components/Logo/Logo";
-import "./verification.scss";
-import ErrorBoundary from "../../../hoc/errorBoundary";
+import React from 'react';
+import { Field, Control } from 'react-bulma-components/lib/components/form';
+import Button from 'react-bulma-components/lib/components/button';
+import Columns from 'react-bulma-components/lib/components/columns';
+import Container from 'react-bulma-components/lib/components/container';
+import Section from 'react-bulma-components/lib/components/section';
+import Modal from '../../../components/Modal/Modal';
+import Separator from '../../../components/Separator/Seperator';
+import Input from '../../../components/Input/Input';
+import Logo from '../../../components/Logo/Logo';
+import './verification.scss';
+import ErrorBoundary from '../../../hoc/errorBoundary';
+import SuccessMessage from '../../../components/Modal/SuccessModalMessage';
+import { verification } from '../../../apis/meed';
 
 class Verification extends React.Component {
   state = {
-    code: "",
+    email: '',
+    verificationCode: '',
     modalState: false,
-    modalTitle: "",
-    modalMessage: "",
-    loader: "",
+    modalTitle: '',
+    modalMessage: '',
+    loader: '',
+    backdrop: true,
   };
 
+  componentDidMount() {
+    this.state.email = this.props.location.state.userEmail;
+  }
   /****** Modal work ******/
   toggleModal = this.toggleModal.bind(this);
   toggleModal() {
@@ -47,22 +54,49 @@ class Verification extends React.Component {
     }
   };
 
-  checkVerificationCode = async ({ code }) => {};
+  checkVerificationCode = async ({ email, verificationCode }) => {
+    const params = {
+      email,
+      verificationCode,
+    };
+    const data = await verification(params);
+    if (data) {
+      if (data.success) {
+        this.setState({
+          modalTitle: 'Congratulation!',
+          backdrop: false,
+          modalMessage: <SuccessMessage message='You successfully completed the registration process' link='/login' />,
+        });
+        this.toggleModal();
+        this.setState({ loader: ' ' });
+      } else {
+        this.setState({
+          modalTitle: 'Error',
+          modalMessage: data.error[0].message,
+        });
+        this.toggleModal();
+        this.setState({ loader: ' ' });
+      }
+    } else {
+      this.setState({
+        modalTitle: 'Error',
+        modalMessage: 'Internal Error Occured!!',
+      });
+      this.toggleModal();
+    }
+  };
 
-  isFormValid = ({ code }) => code;
+  isFormValid = ({ email, verificationCode }) => email.trim() && verificationCode;
 
   render() {
-    {
-      console.log(this.props.location.state.userEmail);
-    }
-    const { code } = this.state;
+    const { verificationCode } = this.state;
     return (
       <ErrorBoundary>
-        <div className="authBody">
+        <div className='authBody'>
           {this.state.loader}
           <Section>
-            <Container fluid className="auth_container">
-              <Logo meed_logo={"meed-logo1"} />
+            <Container fluid className='auth_container'>
+              <Logo meed_logo={'meed-logo1'} />
             </Container>
           </Section>
 
@@ -72,7 +106,7 @@ class Verification extends React.Component {
                 <Container fluid>
                   <Columns>
                     <Columns.Column>
-                      <p className="authHeader">Verification</p>
+                      <p className='authHeader'>Verification</p>
                       <Separator />
                     </Columns.Column>
                   </Columns>
@@ -82,14 +116,22 @@ class Verification extends React.Component {
                         <Columns.Column offset={1} size={10}>
                           <Field>
                             <Control>
-                              <Input name="code" change={this.handleChange} data={code} type="number" text="Verification code" />
+                              <Input
+                                name='verificationCode'
+                                change={this.handleChange}
+                                data={verificationCode}
+                                type='tel'
+                                text='Verification code'
+                                minLength='6'
+                                maxLength='6'
+                              />
                             </Control>
                           </Field>
                         </Columns.Column>
                       </Columns>
                       <Columns>
                         <Columns.Column size={4} offset={4}>
-                          <Button className="authBtn">SUBMIT</Button>
+                          <Button className='authBtn'>SUBMIT</Button>
                         </Columns.Column>
                       </Columns>
                     </Columns.Column>
@@ -98,7 +140,7 @@ class Verification extends React.Component {
               </Section>
             </div>
           </form>
-          <Modal closeModal={this.toggleModal} modalState={this.state.modalState} title={this.state.modalTitle}>
+          <Modal closeModal={this.toggleModal} modalState={this.state.modalState} title={this.state.modalTitle} backdrop={this.state.backdrop}>
             <p>{this.state.modalMessage}</p>
           </Modal>
         </div>
