@@ -8,8 +8,8 @@ import Modal from '../../../components/Modal/Modal';
 import Separator from '../../../components/Separator/Seperator';
 import Input from '../../../components/Input/Input';
 import Logo from '../../../components/Logo/Logo';
-import './verification.scss';
-import ErrorBoundary from '../../../hoc/errorBoundary';
+import './verification.page.scss';
+import ErrorBoundary from '../../../hoc/error';
 import SuccessMessage from '../../../components/Modal/SuccessModalMessage';
 import { verification } from '../../../apis/meed';
 
@@ -25,8 +25,15 @@ class Verification extends React.Component {
   };
 
   componentDidMount() {
-    this.state.email = this.props.location.state.userEmail;
+    this.setEmail();
   }
+
+  setEmail = async () => {
+    const email = this.props.location.state.userEmail;
+    await this.setState({
+      email: email,
+    });
+  };
   /****** Modal work ******/
   toggleModal = this.toggleModal.bind(this);
   toggleModal() {

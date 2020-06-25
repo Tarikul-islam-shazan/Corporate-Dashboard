@@ -12,9 +12,9 @@ import Line from '../../components/Charts/Line/Line';
 import Card from '../../components/Card/Card';
 import { clearStorage, getUserId } from '../../common/GlobalVars';
 import { logout, dashBoardSummary, dashBoardHistoricalData } from '../../apis/meed';
-import './dashboard.scss';
+import './dashboard.page.scss';
 
-import ErrorBoundary from '../../hoc/errorBoundary';
+import ErrorBoundary from '../../hoc/error';
 import { Columns } from 'react-bulma-components';
 import moment from 'moment';
 
@@ -61,7 +61,6 @@ class Dashboard extends React.Component {
     return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][mon - 1];
   };
 
-
   historicalDataLoad = (lastYearActiveUserData, historicalData) => {
     let newUserData = new Array(12).fill(null);
     let activeUserData = new Array(12).fill(null);
@@ -74,7 +73,6 @@ class Dashboard extends React.Component {
     let totalNewUserNumberData = 0;
     let totalActiveUserNumberData = 0;
     let totalMeedShareNumberData = 0;
-
 
     if (this.state.selectedOption.value === 1) {
       let startDate = moment.utc().subtract(1, 'years').startOf('month').format('YYYY/MM/DD');
@@ -157,7 +155,6 @@ class Dashboard extends React.Component {
           totalMeedShare: summaryData.totalIncome.toFixed(2),
           dropdownOptions: [...this.state.dropdownOptions, ...summaryData.years],
         });
-
       }
 
       this.setState({ loader: '' });
@@ -166,7 +163,6 @@ class Dashboard extends React.Component {
       console.log(error);
     }
   };
-
 
   application_user_graph = async () => {
     if (this.state.applicationGraph && this.state.userGraph) {
@@ -179,7 +175,6 @@ class Dashboard extends React.Component {
           {
             name: 'Active User',
             data: this.state.activeUserGraphData,
-
           },
         ],
         graphType: 'line',

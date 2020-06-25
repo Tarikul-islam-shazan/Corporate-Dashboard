@@ -1,25 +1,25 @@
-import React from "react";
-import { Field, Control } from "react-bulma-components/lib/components/form";
-import Button from "react-bulma-components/lib/components/button";
-import Columns from "react-bulma-components/lib/components/columns";
-import Container from "react-bulma-components/lib/components/container";
-import Section from "react-bulma-components/lib/components/section";
-import Modal from "../../../components/Modal/Modal";
-import Separator from "../../../components/Separator/Seperator";
-import Input from "../../../components/Input/Input";
-import Logo from "../../../components/Logo/Logo";
-import SuccessMessage from "../../../components/Modal/SuccessModalMessage";
-import "./forgotPassword.scss";
-import { forgotPassword } from "../../../apis/meed";
-import ErrorBoundary from "../../../hoc/errorBoundary";
+import React from 'react';
+import { Field, Control } from 'react-bulma-components/lib/components/form';
+import Button from 'react-bulma-components/lib/components/button';
+import Columns from 'react-bulma-components/lib/components/columns';
+import Container from 'react-bulma-components/lib/components/container';
+import Section from 'react-bulma-components/lib/components/section';
+import Modal from '../../../components/Modal/Modal';
+import Separator from '../../../components/Separator/Seperator';
+import Input from '../../../components/Input/Input';
+import Logo from '../../../components/Logo/Logo';
+import SuccessMessage from '../../../components/Modal/SuccessModalMessage';
+import './forgotPassword.page.scss';
+import { forgotPassword } from '../../../apis/meed';
+import ErrorBoundary from '../../../hoc/error';
 
 class Forgotpassword extends React.Component {
   state = {
-    email: "",
+    email: '',
     modalState: false,
-    modalTitle: "",
-    modalMessage: "",
-    loader: "",
+    modalTitle: '',
+    modalMessage: '',
+    loader: '',
     backdrop: true,
   };
 
@@ -59,21 +59,21 @@ class Forgotpassword extends React.Component {
     if (data) {
       if (data.success) {
         this.setState({
-          modalTitle: "Success!",
-          backdrop: "false",
-          modalMessage: <SuccessMessage message="An email has been sent to the User with a new Password." />,
+          modalTitle: 'Success!',
+          backdrop: 'false',
+          modalMessage: <SuccessMessage message='An email has been sent to the User with a new Password.' />,
         });
         this.toggleModal();
-        this.setState({ loader: " " });
+        this.setState({ loader: ' ' });
       } else {
-        this.setState({ modalTitle: "Error", modalMessage: data.error[0].message });
+        this.setState({ modalTitle: 'Error', modalMessage: data.error[0].message });
         this.toggleModal();
-        this.setState({ loader: " " });
+        this.setState({ loader: ' ' });
       }
     } else {
       this.setState({
-        modalTitle: "Error",
-        modalMessage: "Internal Error Occured!!",
+        modalTitle: 'Error',
+        modalMessage: 'Internal Error Occured!!',
       });
       this.toggleModal();
     }
@@ -85,11 +85,11 @@ class Forgotpassword extends React.Component {
     const { email } = this.state;
     return (
       <ErrorBoundary>
-        <div className="authBody">
+        <div className='authBody'>
           {this.state.loader}
           <Section>
-            <Container fluid className="auth_container">
-              <Logo meed_logo={"meed-logo1"} />
+            <Container fluid className='auth_container'>
+              <Logo meed_logo={'meed-logo1'} />
             </Container>
           </Section>
 
@@ -99,7 +99,7 @@ class Forgotpassword extends React.Component {
                 <Container fluid>
                   <Columns>
                     <Columns.Column>
-                      <p className="authHeader">Forgot Password</p>
+                      <p className='authHeader'>Forgot Password</p>
                       <Separator />
                     </Columns.Column>
                   </Columns>
@@ -109,14 +109,14 @@ class Forgotpassword extends React.Component {
                         <Columns.Column offset={1} size={10}>
                           <Field>
                             <Control>
-                              <Input name="email" change={this.handleChange} data={email} type="email" text="Email" />
+                              <Input name='email' change={this.handleChange} data={email} type='email' text='Email' />
                             </Control>
                           </Field>
                         </Columns.Column>
                       </Columns>
                       <Columns>
                         <Columns.Column size={4} offset={4}>
-                          <Button className="authBtn">SUBMIT</Button>
+                          <Button className='authBtn'>SUBMIT</Button>
                         </Columns.Column>
                       </Columns>
                     </Columns.Column>
@@ -125,7 +125,7 @@ class Forgotpassword extends React.Component {
               </Section>
             </div>
           </form>
-          <Modal closeModal={this.toggleModal} modalState={this.state.modalState} title={this.state.modalTitle}>
+          <Modal closeModal={this.toggleModal} modalState={this.state.modalState} title={this.state.modalTitle} backdrop={this.state.backdrop}>
             <p>{this.state.modalMessage}</p>
           </Modal>
         </div>

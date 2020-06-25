@@ -1,28 +1,28 @@
-import React from "react";
-import { Field, Control } from "react-bulma-components/lib/components/form";
-import Button from "react-bulma-components/lib/components/button";
-import Columns from "react-bulma-components/lib/components/columns";
-import Container from "react-bulma-components/lib/components/container";
-import Section from "react-bulma-components/lib/components/section";
-import Modal from "../../../components/Modal/Modal";
-import Separator from "../../../components/Separator/Seperator";
-import Input from "../../../components/Input/Input";
-import Logo from "../../../components/Logo/Logo";
-import "./login.scss";
-import { Link } from "react-router-dom";
-import { setIsLogin, set } from "../../../common/GlobalVars";
-import { login } from "../../../apis/meed";
-import uuidv4 from "uuid/v4";
-import ErrorBoundary from "../../../hoc/errorBoundary";
+import React from 'react';
+import { Field, Control } from 'react-bulma-components/lib/components/form';
+import Button from 'react-bulma-components/lib/components/button';
+import Columns from 'react-bulma-components/lib/components/columns';
+import Container from 'react-bulma-components/lib/components/container';
+import Section from 'react-bulma-components/lib/components/section';
+import Modal from '../../../components/Modal/Modal';
+import Separator from '../../../components/Separator/Seperator';
+import Input from '../../../components/Input/Input';
+import Logo from '../../../components/Logo/Logo';
+import './login.page.scss';
+import { Link } from 'react-router-dom';
+import { setIsLogin, set } from '../../../common/GlobalVars';
+import { login } from '../../../apis/meed';
+import uuidv4 from 'uuid/v4';
+import ErrorBoundary from '../../../hoc/error';
 
 class Login extends React.Component {
   state = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     modalState: false,
-    modalTitle: "",
-    modalMessage: "",
-    loader: "",
+    modalTitle: '',
+    modalMessage: '',
+    loader: '',
     backdrop: true,
   };
 
@@ -51,8 +51,8 @@ class Login extends React.Component {
       }
     } else {
       this.setState({
-        modalTitle: "Error",
-        modalMessage: "Enter Valid Email/Password",
+        modalTitle: 'Error',
+        modalMessage: 'Enter Valid Email/Password',
       });
       this.toggleModal();
     }
@@ -63,28 +63,28 @@ class Login extends React.Component {
       email: email,
       password: password,
     };
-    set("deviceId", await uuidv4());
+    set('deviceId', await uuidv4());
     const response = await login(params);
     if (response) {
       if (response.success) {
         const { user, companyName, createdDate } = response.data;
-        set("userId", user);
-        set("companyName", companyName);
-        set("createdDate", createdDate);
+        set('userId', user);
+        set('companyName', companyName);
+        set('createdDate', createdDate);
         setIsLogin(true);
-        this.props.history.push("/");
+        this.props.history.push('/');
       } else {
         this.setState({
-          modalTitle: "Error",
+          modalTitle: 'Error',
           modalMessage: response.error[0].message,
         });
         this.toggleModal();
-        this.setState({ loader: " " });
+        this.setState({ loader: ' ' });
       }
     } else {
       this.setState({
-        modalTitle: "Error",
-        modalMessage: "Internal Error Occured!!",
+        modalTitle: 'Error',
+        modalMessage: 'Internal Error Occured!!',
       });
       this.toggleModal();
     }
@@ -101,7 +101,7 @@ class Login extends React.Component {
           {this.state.loader}
           <Section>
             <Container fluid className='auth_container'>
-              <Logo meed_logo={"meed-logo1"} />
+              <Logo meed_logo={'meed-logo1'} />
             </Container>
           </Section>
 
