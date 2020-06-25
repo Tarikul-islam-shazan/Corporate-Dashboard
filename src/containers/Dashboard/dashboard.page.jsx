@@ -10,40 +10,33 @@ import Header from '../../components/Header/Header';
 import Bar from '../../components/Charts/Bar/Bar';
 import Line from '../../components/Charts/Line/Line';
 import Card from '../../components/Card/Card';
-import { clearStorage, setDashboardData, getDashboardData, getUserId } from '../../common/GlobalVars';
-import { logout, dashBoard } from '../../apis/meed';
+import { clearStorage, getUserId } from '../../common/GlobalVars';
+import { logout, dashBoardSummary, dashBoardHistoricalData } from '../../apis/meed';
 import './dashboard.scss';
+
 import ErrorBoundary from '../../hoc/errorBoundary';
 import { Columns } from 'react-bulma-components';
 import moment from 'moment';
 
 class Dashboard extends React.Component {
   state = {
-    dropdownOptions: [
-      { text: 'Rolling 12 Months', value: 1 },
-      { text: '2019', value: 2019 },
-    ],
+    dropdownOptions: [{ text: 'Rolling 12 Months', value: 1 }],
     selectedOption: { text: 'Rolling 12 Months', value: 1 },
-    bankApplication: 0,
-    bankApplication2: 0,
-    activeUser: 0,
-    activeUser2: 0,
-    socialBoostIncome: 0,
-    socialBoostIncome2: 0,
-    totalShare: 0,
-    totalcShare: 0,
-    share: 0,
-    corporateShare: 0,
-    loader: '',
-    groupSize_employee_total: 1,
-    month_year: 'Month',
-    month_year3: 'Month',
-    applicationGraphData: [],
+    thisMonthActiveUser: 0,
+    totalActiveUser: 0,
+    thisMonthMeedShare: 0,
+    totalMeedShare: 0,
     userGraphData: [],
+    activeuserGraphData: [],
     incomeGraphData: [],
+    xaxis: [],
+    totalNewUserNumber: 0,
+    totalActiveUserNumber: 0,
+    totalMeedShareNumber: 0,
     applicationGraph: false,
     userGraph: false,
     incomeGraph: false,
+    loader: '',
     applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
     userGraphBodyCss: 'has-card-opacity has-background-blue-light has-rounded-top-corners has-font-white',
     incomeGraphBodyCss: 'has-card-opacity has-background-green-brighter has-rounded-top-corners has-font-white',
@@ -52,7 +45,7 @@ class Dashboard extends React.Component {
     incomeGraphFooterCss: 'has-card-opacity has-bottom-border has-background-green-brighter has-rounded-bottom-corners is-bottom-color-box',
     graphColor: ['#FF925D'],
     series: [{ name: ' ', data: [] }],
-    graphType: 'bar',
+    graphType: 'null',
     legend: true,
   };
 
@@ -64,136 +57,116 @@ class Dashboard extends React.Component {
     }
   }
 
-  dashBoardData = async () => {
-    this.setState({ loader: <MeedLoader /> });
-    try {
-      const data = await dashBoard();
-      if (data.success) {
-        setDashboardData(data.data.statusHistory);
-        const hisData = JSON.parse(getDashboardData());
+  monthName = (mon) => {
+    return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][mon - 1];
+  };
 
-        let filteData = hisData.filter((data) => {
-          if (data.year === new Date().getFullYear() && data.month === new Date().getMonth() + 1 && data.country === 'USA') return true;
-          return '';
-        });
-        if (!filteData.length) {
-          filteData = [
-            {
-              application: 0,
-              country: 0,
-              income: 0,
-              userInviter: 0,
-              month: 0,
-              requests: 0,
-              user: 0,
-              year: 0,
-            },
-          ];
+
+  historicalDataLoad = (lastYearActiveUserData, historicalData) => {
+    let newUserData = new Array(12).fill(null);
+    let activeUserData = new Array(12).fill(null);
+    let meedShareData = new Array(12).fill(null);
+    let xaxisList = new Array(12).fill(null);
+    let tempActiveUser = 0;
+    let month = 0;
+    let year = 0;
+    let j = 0;
+    let totalNewUserNumberData = 0;
+    let totalActiveUserNumberData = 0;
+    let totalMeedShareNumberData = 0;
+
+
+    if (this.state.selectedOption.value === 1) {
+      let startDate = moment.utc().subtract(1, 'years').startOf('month').format('YYYY/MM/DD');
+      month = moment(startDate).format('M');
+      year = moment(startDate).format('YY');
+
+      for (let i = 0; i < 12; i++) {
+        if (month > 12) {
+          month = 1;
+          year = parseInt(year) + 1;
         }
-        let inviter = filteData[0].userInviter ? filteData[0].userInviter : 0;
-        let totalShare = filteData[0].totalShare ? filteData[0].totalShare : 0;
-        let totalCorporateShare = filteData[0].totalCorporateShare ? filteData[0].totalCorporateShare : 0;
+        xaxisList[i] = this.monthName(month) + ' ' + year;
+        if (historicalData.length) {
+          if (historicalData[j]) {
+            if (historicalData[j].month === month) {
+              if (j === 0) {
+                tempActiveUser = lastYearActiveUserData;
+              }
+              let hData = historicalData[j].user ? historicalData[j].user : 0;
+              tempActiveUser = tempActiveUser + hData;
 
-        let userShare = totalShare !== 0 ? (inviter * 100) / totalShare : 0;
-        let userCorporateShare = totalCorporateShare !== 0 ? (inviter * 100) / totalCorporateShare : 0;
-
-        let applicationData = new Array(12).fill(null);
-        let userData = new Array(12).fill(null);
-        let incomeData = new Array(12).fill(null);
-
-        for (let i = 0; i < 12; i++) {
-          if (filteData.length) {
-            if (filteData[i]) {
-              applicationData[filteData[i].month - 1] = filteData[i].application ? filteData[i].application : null;
-              userData[filteData[i].month - 1] = filteData[i].user ? filteData[i].user : null;
-              incomeData[filteData[i].month - 1] = filteData[i].income ? filteData[i].income.toFixed(2) : null;
+              newUserData[i] = historicalData[j].user ? historicalData[j].user : null;
+              activeUserData[i] = tempActiveUser ? tempActiveUser : null;
+              meedShareData[i] = historicalData[j].income ? historicalData[j].income.toFixed(2) : null;
+              totalNewUserNumberData = totalNewUserNumberData + (historicalData[j].user ? historicalData[j].user : 0);
+              totalMeedShareNumberData = totalMeedShareNumberData + (historicalData[j].income ? historicalData[j].income.toFixed(2) : 0.0);
+              j++;
             }
           }
         }
-
-        this.setState({
-          bankApplication: filteData[0].application ? filteData[0].application : 0,
-          activeUser: filteData[0].user ? filteData[0].user : 0,
-          socialBoostIncome: filteData[0].income ? filteData[0].income.toFixed(2) : 0,
-          totalShare: filteData[0].totalShare ? filteData[0].totalShare : 0,
-          totalcShare: filteData[0].totalCorporateShare ? filteData[0].totalCorporateShare : 0,
-          share: userShare.toFixed(2),
-          corporateShare: userCorporateShare.toFixed(2),
-          applicationGraphData: applicationData,
-          userGraphData: userData,
-          incomeGraphData: incomeData,
-          bankApplication2: filteData[0].application ? filteData[0].application : 0,
-          activeUser2: filteData[0].user ? filteData[0].user : 0,
-          socialBoostIncome2: filteData[0].income ? filteData[0].income.toFixed(2) : 0,
-        });
-        this.setState({ loader: '' });
-      } else {
+        month++;
       }
+    } else {
+      for (let i = 0; i < 12; i++) {
+        xaxisList[i] = this.monthName(i + 1) + ' ' + this.state.selectedOption.value.toString().substr(-2);
+        if (historicalData.length) {
+          if (historicalData[i]) {
+            if (i === 0) {
+              tempActiveUser = lastYearActiveUserData;
+            }
+            let hData = historicalData[i].user ? historicalData[j].user : 0;
+            tempActiveUser = tempActiveUser + hData;
+
+            newUserData[historicalData[i].month - 1] = historicalData[i].user ? historicalData[i].user : null;
+            activeUserData[historicalData[i].month - 1] = tempActiveUser ? tempActiveUser : null;
+            meedShareData[historicalData[i].month - 1] = historicalData[i].income ? historicalData[i].income.toFixed(2) : null;
+            totalNewUserNumberData = totalNewUserNumberData + (historicalData[i].user ? historicalData[i].user : 0);
+            totalMeedShareNumberData = totalMeedShareNumberData + (historicalData[i].income ? historicalData[i].income.toFixed(2) : 0.0);
+          }
+        }
+      }
+    }
+
+    totalActiveUserNumberData = lastYearActiveUserData + totalNewUserNumberData;
+    totalMeedShareNumberData = parseFloat(totalMeedShareNumberData).toFixed(2);
+    this.setState({
+      userGraphData: newUserData,
+      activeUserGraphData: activeUserData,
+      incomeGraphData: meedShareData,
+      xaxis: xaxisList,
+      totalActiveUserNumber: totalActiveUserNumberData,
+      totalNewUserNumber: totalNewUserNumberData,
+      totalMeedShareNumber: totalMeedShareNumberData,
+    });
+  };
+
+  dashBoardData = async () => {
+    this.setState({ loader: <MeedLoader /> });
+    try {
+      const { data: summaryData, success: summarySuccess } = await dashBoardSummary();
+      const { lastYearActiveUserData, historicalData, success: historicalSuccess } = await dashBoardHistoricalData(true, null);
+      if (historicalSuccess) {
+        this.historicalDataLoad(lastYearActiveUserData, historicalData);
+      }
+      if (summarySuccess) {
+        this.setState({
+          thisMonthActiveUser: summaryData.activeUser,
+          totalActiveUser: summaryData.totalActiveUser,
+          thisMonthMeedShare: summaryData.lastMonthIncome.toFixed(2),
+          totalMeedShare: summaryData.totalIncome.toFixed(2),
+          dropdownOptions: [...this.state.dropdownOptions, ...summaryData.years],
+        });
+
+      }
+
+      this.setState({ loader: '' });
     } catch (error) {
+      this.setState({ loader: '' });
       console.log(error);
     }
   };
 
-  graphSeries = async () => {
-    if (this.state.applicationGraph && this.state.userGraph) {
-      this.setState({
-        series: [
-          {
-            name: 'New Users',
-            data: this.state.applicationGraphData,
-          },
-          {
-            name: 'Active User',
-            data: this.state.userGraphData,
-          },
-        ],
-      });
-    } else if (this.state.applicationGraph) {
-      await this.setState({
-        series: [
-          {
-            name: 'New Users',
-            data: this.state.applicationGraphData,
-          },
-          {
-            name: '',
-            data: [],
-          },
-        ],
-      });
-    } else if (this.state.userGraph) {
-      this.setState({
-        series: [
-          {
-            name: '',
-            data: [],
-          },
-          {
-            name: 'Active User',
-            data: this.state.userGraphData,
-          },
-        ],
-      });
-    } else if (this.state.incomeGraph) {
-      this.setState({
-        series: [
-          {
-            name: 'MeedShare Income',
-            data: this.state.incomeGraphData,
-          },
-        ],
-      });
-    } else {
-      this.setState({
-        series: [
-          {
-            name: ' ',
-            data: new Array(12).fill(null),
-          },
-        ],
-      });
-    }
-  };
 
   application_user_graph = async () => {
     if (this.state.applicationGraph && this.state.userGraph) {
@@ -201,11 +174,12 @@ class Dashboard extends React.Component {
         series: [
           {
             name: 'New Users',
-            data: this.state.applicationGraphData,
+            data: this.state.userGraphData,
           },
           {
             name: 'Active User',
-            data: this.state.userGraphData,
+            data: this.state.activeUserGraphData,
+
           },
         ],
         graphType: 'line',
@@ -221,7 +195,7 @@ class Dashboard extends React.Component {
         series: [
           {
             name: 'New Users',
-            data: this.state.applicationGraphData,
+            data: this.state.userGraphData,
           },
           {
             name: ' ',
@@ -247,7 +221,7 @@ class Dashboard extends React.Component {
           },
           {
             name: 'Active User',
-            data: this.state.userGraphData,
+            data: this.state.activeUserGraphData,
           },
         ],
         graphType: 'line',
@@ -268,7 +242,7 @@ class Dashboard extends React.Component {
             data: new Array(12).fill(null),
           },
         ],
-        graphType: 'bar',
+        graphType: 'null',
         legend: false,
         graphColor: ['#53C9FF'],
         applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
@@ -309,7 +283,7 @@ class Dashboard extends React.Component {
             data: new Array(12).fill(null),
           },
         ],
-        graphType: 'bar',
+        graphType: 'null',
         legend: false,
         graphColor: ['#1DD090'],
         applicationGraphBodyCss: 'has-card-opacity has-background-salmon has-rounded-top-corners has-font-white',
@@ -343,8 +317,6 @@ class Dashboard extends React.Component {
     await this.income_graph();
   };
 
-  /** End of Month to Year toggle event 2*/
-
   /** Logout event work */
   userLogoutHandler = () => {
     this.userLogout();
@@ -364,9 +336,27 @@ class Dashboard extends React.Component {
   };
   /** End of Logout event work */
 
-  changeDropDown = (event) => {
+  changeDropDown = async (event) => {
     const selected = this.state.dropdownOptions.find((option) => option.value === event);
-    this.setState({ selectedOption: selected });
+    await this.setState({
+      selectedOption: selected,
+      applicationGraph: false,
+      userGraph: false,
+      incomeGraph: false,
+    });
+    let rolling = null;
+    let year = null;
+    if (event === 1) {
+      rolling = true;
+    } else {
+      year = event;
+    }
+    await this.application_user_graph();
+    await this.income_graph();
+    const { lastYearActiveUserData, historicalData, success: historicalSuccess } = await dashBoardHistoricalData(rolling, year);
+    if (historicalSuccess) {
+      this.historicalDataLoad(lastYearActiveUserData, historicalData);
+    }
   };
 
   render() {
@@ -390,7 +380,6 @@ class Dashboard extends React.Component {
                 <hr />
               </Container>
             </Section>
-
             <Section>
               <Container fluid>
                 <Columns>
@@ -401,7 +390,7 @@ class Dashboard extends React.Component {
                           <Card
                             subtitle={'subtitle is-2'}
                             bodyClass={'has-background-grey-qua has-rounded-top-corners'}
-                            cardData={this.state.bankApplication}
+                            cardData={this.state.thisMonthActiveUser}
                             cardText={'New Active Users'}
                             monthYear={moment().format('MMMM')}
                             footerClass={'has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box'}
@@ -410,7 +399,7 @@ class Dashboard extends React.Component {
                           <Card
                             subtitle={'subtitle is-2'}
                             bodyClass={'has-background-grey-qua has-rounded-top-corners'}
-                            cardData={this.state.activeUser}
+                            cardData={this.state.totalActiveUser}
                             cardText={'Active Users'}
                             monthYear={'Now'}
                             footerClass={'has-bottom-border has-background-blue-light has-rounded-bottom-corners is-bottom-color-box'}
@@ -421,7 +410,7 @@ class Dashboard extends React.Component {
                           <Card
                             subtitle={'subtitle is-2'}
                             bodyClass={'has-background-grey-qua has-rounded-top-corners'}
-                            cardData={this.state.socialBoostIncome}
+                            cardData={this.state.thisMonthMeedShare}
                             cardText={'MeedShare Income'}
                             monthYear={moment().format('MMMM')}
                             footerClass={'has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box'}
@@ -429,7 +418,7 @@ class Dashboard extends React.Component {
                           <Card
                             subtitle={'subtitle is-2'}
                             bodyClass={'has-background-grey-qua has-rounded-top-corners'}
-                            cardData={this.state.socialBoostIncome}
+                            cardData={this.state.totalMeedShare}
                             cardText={'MeedShare Income'}
                             monthYear={'To Date'}
                             footerClass={'has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box'}
@@ -483,7 +472,7 @@ class Dashboard extends React.Component {
                         <Card
                           subtitle={'subtitle is-2 has-subtitle-white'}
                           bodyClass={this.state.applicationGraphBodyCss}
-                          cardData={this.state.bankApplication2}
+                          cardData={this.state.totalNewUserNumber}
                           monthYear={'New Users'}
                           footerClass={this.state.applicationGraphFooterCss}
                         />
@@ -492,7 +481,7 @@ class Dashboard extends React.Component {
                         <Card
                           subtitle={'subtitle is-2 has-subtitle-white'}
                           bodyClass={this.state.userGraphBodyCss}
-                          cardData={this.state.activeUser2}
+                          cardData={this.state.totalActiveUserNumber}
                           monthYear={'Active Users'}
                           footerClass={this.state.userGraphFooterCss}
                         />
@@ -501,7 +490,7 @@ class Dashboard extends React.Component {
                         <Card
                           subtitle={'subtitle is-2 has-subtitle-white'}
                           bodyClass={this.state.incomeGraphBodyCss}
-                          cardData={this.state.socialBoostIncome2}
+                          cardData={this.state.totalMeedShareNumber}
                           monthYear={'MeedShare Income'}
                           footerClass={this.state.incomeGraphFooterCss}
                         />
@@ -516,10 +505,32 @@ class Dashboard extends React.Component {
               <Container fluid>
                 <div className='graphArea'>
                   {this.state.graphType === 'line' ? (
-                    <Line series={this.state.series} legend={this.state.legend} graphColor={this.state.graphColor} graphType={this.state.graphType} />
-                  ) : (
-                    <Bar series={this.state.series} graphColor={this.state.graphColor} graphType={this.state.graphType} />
-                  )}
+                    <Line
+                      series={this.state.series}
+                      xaxis={this.state.xaxis}
+                      legend={this.state.legend}
+                      graphColor={this.state.graphColor}
+                      graphType={this.state.graphType}
+                    />
+                  ) : null}
+                  {this.state.graphType === 'bar' ? (
+                    <Bar
+                      series={this.state.series}
+                      xaxis={this.state.xaxis}
+                      legend={this.state.legend}
+                      graphColor={this.state.graphColor}
+                      graphType={this.state.graphType}
+                    />
+                  ) : null}
+                  {this.state.graphType === 'null' ? (
+                    <Bar
+                      series={this.state.series}
+                      xaxis={this.state.xaxis}
+                      legend={this.state.legend}
+                      graphColor={this.state.graphColor}
+                      graphType={this.state.graphType}
+                    />
+                  ) : null}
                 </div>
               </Container>
             </Section>

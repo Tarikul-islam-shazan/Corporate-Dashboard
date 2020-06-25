@@ -1,6 +1,6 @@
 import axios from 'axios';
 import history from '../history';
-import { get as getFromLocalStorage, clearStorage, getUserId } from '../common/GlobalVars';
+import { get as getFromLocalStorage, clearStorage } from '../common/GlobalVars';
 
 const BASE_URL = process.env.REACT_APP_base_url;
 
@@ -58,7 +58,8 @@ export const signUp = async (params) => await post(params, '/signUp');
 
 export const logout = async (params) => await post(params, '/logout');
 
-export const dashBoard = async () => await get({}, '/dashboard?userId=' + getUserId());
+export const dashBoardSummary = async () => await get({}, '/dashboard/summary');
+export const dashBoardHistoricalData = async (rolling, year) => await get({}, `/dashboard/historicalData?rolling=${rolling}&year=${year}`);
 
 export const forgotPassword = async (params) => await post(params, '/forgotPassword');
 
