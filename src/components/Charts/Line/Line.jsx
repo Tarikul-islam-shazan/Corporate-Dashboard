@@ -80,21 +80,40 @@ class Line extends Component {
             if (val !== null) return val;
             return '';
           },
-          offsetY: 22,
+          offsetY: 0,
           textAnchor: 'middle',
           height: '10px',
           width: '20px',
           style: {
             fontSize: '14px',
-            colors: ['#FFFFFF'],
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 'bold',
+            colors: undefined,
           },
-
-          dropShadow: {
+          background: {
             enabled: true,
+            foreColor: '#fff',
+            padding: 0,
+            borderRadius: 0,
+            borderWidth: 0,
+            borderColor: '#fff',
+            opacity: 0.9,
+            dropShadow: {
+              enabled: false,
+              top: 1,
+              left: 1,
+              blur: 1,
+              color: '#000',
+              opacity: 0.45,
+            },
+          },
+          dropShadow: {
+            enabled: false,
             top: 1,
             left: 1,
             blur: 1,
-            opacity: 0.2,
+            color: '#000',
+            opacity: 0.45,
           },
         },
         legend: {

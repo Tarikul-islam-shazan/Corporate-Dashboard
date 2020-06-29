@@ -87,7 +87,7 @@ class Dashboard extends React.Component {
         xaxisList[i] = this.monthName(month) + ' ' + year;
         if (historicalData.length) {
           if (historicalData[j]) {
-            if (historicalData[j].month === month) {
+            if (parseInt(historicalData[j].month) === parseInt(month)) {
               if (j === 0) {
                 tempActiveUser = lastYearActiveUserData;
               }
