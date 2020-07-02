@@ -47,7 +47,7 @@ class Line extends Component {
             offsetY: 0,
           },
         },
-        colors: ['#FF925D', '#53C9FF'],
+        colors: ['#53C9FF', '#FF925D'],
         plotOptions: {
           bar: {
             dataLabels: {
@@ -57,7 +57,7 @@ class Line extends Component {
         },
         responsive: [
           {
-            breakpoint: 480,
+            breakpoint: 1025,
             options: {
               legend: {
                 position: 'bottom',

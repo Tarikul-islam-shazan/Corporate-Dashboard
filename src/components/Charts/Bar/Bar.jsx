@@ -50,7 +50,7 @@ class Bar extends Component {
         },
         responsive: [
           {
-            breakpoint: 480,
+            breakpoint: 1025,
             options: {
               legend: {
                 position: 'bottom',

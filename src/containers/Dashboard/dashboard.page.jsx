@@ -58,7 +58,7 @@ class Dashboard extends React.Component {
   }
 
   monthName = (mon) => {
-    return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][mon - 1];
+    return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][mon - 1];
   };
 
   historicalDataLoad = (lastYearActiveUserData, historicalData) => {
@@ -169,17 +169,17 @@ class Dashboard extends React.Component {
       this.setState({
         series: [
           {
-            name: 'New Users',
-            data: this.state.userGraphData,
-          },
-          {
             name: 'Active User',
             data: this.state.activeUserGraphData,
+          },
+          {
+            name: 'New Users',
+            data: this.state.userGraphData,
           },
         ],
         graphType: 'line',
         legend: true,
-        graphColor: ['#FF925D', '#53C9FF'],
+        graphColor: ['#53C9FF', '#FF925D'],
         applicationGraphBodyCss: 'has-background-salmon has-rounded-top-corners has-font-white',
         applicationGraphFooterCss: 'has-bottom-border has-background-salmon has-rounded-bottom-corners is-bottom-color-box',
         userGraphBodyCss: 'has-background-blue-light has-rounded-top-corners has-font-white',
@@ -189,12 +189,12 @@ class Dashboard extends React.Component {
       this.setState({
         series: [
           {
-            name: 'New Users',
-            data: this.state.userGraphData,
-          },
-          {
             name: ' ',
             data: [],
+          },
+          {
+            name: 'New Users',
+            data: this.state.userGraphData,
           },
         ],
         graphType: 'line',
@@ -211,12 +211,12 @@ class Dashboard extends React.Component {
       this.setState({
         series: [
           {
-            name: '',
-            data: [],
-          },
-          {
             name: 'Active User',
             data: this.state.activeUserGraphData,
+          },
+          {
+            name: '',
+            data: [],
           },
         ],
         graphType: 'line',
@@ -405,7 +405,7 @@ class Dashboard extends React.Component {
                           <Card
                             subtitle={'subtitle is-2'}
                             bodyClass={'has-background-grey-qua has-rounded-top-corners'}
-                            cardData={this.state.thisMonthMeedShare}
+                            cardData={`$${this.state.thisMonthMeedShare}`}
                             cardText={'MeedShare Income'}
                             monthYear={moment().format('MMMM')}
                             footerClass={'has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box'}
@@ -413,7 +413,7 @@ class Dashboard extends React.Component {
                           <Card
                             subtitle={'subtitle is-2'}
                             bodyClass={'has-background-grey-qua has-rounded-top-corners'}
-                            cardData={this.state.totalMeedShare}
+                            cardData={`$${this.state.totalMeedShare}`}
                             cardText={'MeedShare Income'}
                             monthYear={'To Date'}
                             footerClass={'has-bottom-border has-background-green-bright has-rounded-bottom-corners is-bottom-color-box'}
@@ -485,7 +485,7 @@ class Dashboard extends React.Component {
                         <Card
                           subtitle={'subtitle is-2 has-subtitle-white'}
                           bodyClass={this.state.incomeGraphBodyCss}
-                          cardData={this.state.totalMeedShareNumber}
+                          cardData={`$${this.state.totalMeedShareNumber}`}
                           monthYear={'MeedShare Income'}
                           footerClass={this.state.incomeGraphFooterCss}
                         />
